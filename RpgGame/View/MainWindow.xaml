@@ -1,0 +1,73 @@
+﻿<Window x:Class="RpgGame.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RpgGame"
+        mc:Ignorable="d"
+        Title="Rpg Game" Height="450" Width="800" Background="LightSlateGray">
+    <DockPanel LastChildFill="True">
+        <StackPanel DockPanel.Dock="Bottom" Height="30" Background="Azure">
+            
+        </StackPanel>
+        <StackPanel DockPanel.Dock="Right" Width="200" Background="FloralWhite">
+            
+        </StackPanel>
+        <UniformGrid DockPanel.Dock="Left" Rows="6" Columns="9" Height="400">
+            <Image Source="{Binding }"/>
+            <Image Source="{Binding }"/>
+            <Image Source="{Binding }"/>
+            <Image Source="{Binding }"/>
+            <Image Source="{Binding }"/>
+            <Image Source="{Binding }"/>
+            <Image Source="{Binding }"/>
+            <Image Source="{Binding }"/>
+            <Image Source="{Binding }"/>
+            <Image Source="{Binding }"/>
+            <Image Source="{Binding }"/>
+            <Image Source="{Binding }"/>
+            <Image Source="{Binding }"/>
+            <Image Source="{Binding }"/>
+            <Image Source="{Binding }"/>
+            <Image Source="{Binding }"/>
+            <Image Source="{Binding }"/>
+            <Image Source="{Binding }"/>
+            <Image Source="{Binding }"/>
+            <Image Source="{Binding }"/>
+            <Image Source="{Binding }"/>
+            <Image Source="{Binding }"/>
+            <Image Source="{Binding }"/>
+            <Image Source="{Binding }"/>
+            <Image Source="{Binding }"/>
+            <Image Source="{Binding }"/>
+            <Image Source="{Binding }"/>
+            <Image Source="{Binding }"/>
+            <Image Source="{Binding }"/>
+            <Image Source="{Binding }"/>
+            <Image Source="{Binding }"/>
+            <Image Source="{Binding }"/>
+            <Image Source="{Binding }"/>
+            <Image Source="{Binding }"/>
+            <Image Source="{Binding }"/>
+            <Image Source="{Binding }"/>
+            <Image Source="{Binding }"/>
+            <Image Source="{Binding }"/>
+            <Image Source="{Binding }"/>
+            <Image Source="{Binding }"/>
+            <Image Source="{Binding }"/>
+            <Image Source="{Binding }"/>
+            <Image Source="{Binding }"/>
+            <Image Source="{Binding }"/>
+            <Image Source="{Binding }"/>
+            <Image Source="{Binding }"/>
+            <Image Source="{Binding }"/>
+            <Image Source="{Binding }"/>
+            <Image Source="{Binding }"/>
+            <Image Source="{Binding }"/>
+            <Image Source="{Binding }"/>
+            <Image Source="{Binding }"/>
+            <Image Source="{Binding }"/>
+            <Image Source="{Binding }"/>
+        </UniformGrid>
+    </DockPanel>
+</Window>
