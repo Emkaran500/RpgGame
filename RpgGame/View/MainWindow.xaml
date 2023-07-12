@@ -55,9 +55,6 @@
                     <RowDefinition/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                
-                
-                
             </Grid>
         </Grid>
         

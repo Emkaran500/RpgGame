@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using RpgGame.DataModels;
 
 namespace RpgGame
 {
@@ -21,6 +22,7 @@ namespace RpgGame
     /// </summary>
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
+        private Map map;
         private string column;
         public string Column
         {
@@ -55,17 +57,19 @@ namespace RpgGame
         {
             InitializeComponent();
             this.DataContext = this;
-            this.AddTilesToGrid(this.MapGrid.ColumnDefinitions.Count, this.MapGrid.RowDefinitions.Count);
+
+            map.MapGrid = this.MapGrid;
+            MapMethods.AddTilesToGrid(map, map.MapGrid.ColumnDefinitions.Count, map.MapGrid.RowDefinitions.Count);
             this.AddPlayerToMap();
 
             if (this.MapGrid.FindName("PlayerModel") != null)
             {
-                Image playerModel = this.MapGrid.FindName("PlayerModel") as Image;
+                Image playerModel = map.MapGrid.FindName("PlayerModel") as Image;
                 this.Row = Grid.GetRow(playerModel).ToString();
             }
-            if (this.MapGrid.FindName("PlayerModel") != null)
+            if (map.MapGrid.FindName("PlayerModel") != null)
             {
-                Image playerModel = this.MapGrid.FindName("PlayerModel") as Image;
+                Image playerModel = map.MapGrid.FindName("PlayerModel") as Image;
                 this.Column = Grid.GetColumn(playerModel).ToString();
             }
             //this.Column = Grid.GetColumn(this.MapGrid.FindName("PlayerModel") as Image).ToString();
@@ -73,29 +77,13 @@ namespace RpgGame
             this.KeyDown += MainWindow_KeyDown;
         }
 
-        private void AddTilesToGrid(int gridColumns, int gridRows)
-        {
-            for (int i = 0; i < gridRows; i++)
-            {
-                for (int j = 0; j < gridColumns; j++)
-                {
-                    Image newTile = new Image();
-                    BitmapImage tileSource = new BitmapImage(new Uri("C:\\Users\\PC\\Desktop\\Степит\\RpgGame\\RpgGame\\View\\grass_tile_1.png"));
-                    newTile.Source = tileSource;
-                    this.MapGrid.Children.Add(newTile);
-                    Grid.SetRow(newTile, i);
-                    Grid.SetColumn(newTile, j);
-                }
-            }
-        }
-
         private void AddPlayerToMap()
         {
             Image newPlayer = new Image();
-            BitmapImage playerSource = new BitmapImage(new Uri("C:\\Users\\PC\\Desktop\\Степит\\RpgGame\\RpgGame\\Assets\\player_texture.png"));
+            BitmapImage playerSource = new BitmapImage(new Uri("player_texture.png", UriKind.Relative));
             newPlayer.Source = playerSource;
             RegisterName("PlayerModel", newPlayer);
-            this.MapGrid.Children.Add(newPlayer);
+            map.MapGrid.Children.Add(newPlayer);
             Grid.SetRow(newPlayer, 0);
             Grid.SetColumn(newPlayer, 0);
         }

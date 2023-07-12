@@ -45,8 +45,4 @@
     <Resource Include="View\player_texture.png" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="DataModels\" />
-  </ItemGroup>
-
 </Project>
