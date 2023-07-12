@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Text.Json;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.IO;
 using RpgGame.DataModels;
 
 namespace RpgGame
@@ -22,7 +24,7 @@ namespace RpgGame
     /// </summary>
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
-        private Map map;
+        public Map map;
         private string column;
         public string Column
         {
@@ -58,8 +60,18 @@ namespace RpgGame
             InitializeComponent();
             this.DataContext = this;
 
-            map.MapGrid = this.MapGrid;
-            MapMethods.AddTilesToGrid(map, map.MapGrid.ColumnDefinitions.Count, map.MapGrid.RowDefinitions.Count);
+            string mapTilesPath = "C:\\Users\\PC\\Desktop\\Степит\\RpgGame\\RpgGame\\Assets\\MapTiles.json";
+            string mapFromJson = File.ReadAllText(mapTilesPath);
+            MapTile[] mapTiles = JsonSerializer.Deserialize<MapTile[]>(mapFromJson);
+
+            map = new Map(this.MapGrid, mapTiles);
+            BitmapImage[] tileSource = new BitmapImage[mapTiles.Count()];
+
+            for (int i = 0; i < tileSource.Length; i++)
+            {
+                tileSource[i] = new BitmapImage(new Uri(mapTiles[i].TileURL, UriKind.Relative));
+            }
+            map.AddTilesToGrid(map.MapGrid.ColumnDefinitions.Count, map.MapGrid.RowDefinitions.Count, tileSource);
             this.AddPlayerToMap();
 
             if (this.MapGrid.FindName("PlayerModel") != null)
@@ -72,18 +84,15 @@ namespace RpgGame
                 Image playerModel = map.MapGrid.FindName("PlayerModel") as Image;
                 this.Column = Grid.GetColumn(playerModel).ToString();
             }
-            //this.Column = Grid.GetColumn(this.MapGrid.FindName("PlayerModel") as Image).ToString();
 
             this.KeyDown += MainWindow_KeyDown;
         }
 
         private void AddPlayerToMap()
         {
-            Image newPlayer = new Image();
-            BitmapImage playerSource = new BitmapImage(new Uri("player_texture.png", UriKind.Relative));
-            newPlayer.Source = playerSource;
-            RegisterName("PlayerModel", newPlayer);
+            Image newPlayer = Player.CreatePlayer();
             map.MapGrid.Children.Add(newPlayer);
+            RegisterName("PlayerModel", newPlayer);
             Grid.SetRow(newPlayer, 0);
             Grid.SetColumn(newPlayer, 0);
         }
@@ -92,50 +101,7 @@ namespace RpgGame
         {
             if (e.Key == Key.W || e.Key == Key.S || e.Key == Key.A || e.Key == Key.D)
             {
-                this.ChangePlayerPosition(e.Key);
-            }
-        }
-
-        public void ChangePlayerPosition(Key key)
-        {
-            switch (key)
-            {
-                case Key.W:
-                    {
-                        if (Grid.GetRow(this.MapGrid.FindName("PlayerModel") as Image) > 0)
-                        {
-                            Grid.SetRow(this.MapGrid.FindName("PlayerModel") as Image, Grid.GetRow(this.MapGrid.FindName("PlayerModel") as Image) - 1);
-                            this.Row = Grid.GetRow(this.MapGrid.FindName("PlayerModel") as Image).ToString();
-                        }
-                        break;
-                    }
-                case Key.S:
-                    {
-                        if (Grid.GetRow(this.MapGrid.FindName("PlayerModel") as Image) < this.MapGrid.RowDefinitions.Count - 1)
-                        {
-                            Grid.SetRow(this.MapGrid.FindName("PlayerModel") as Image, Grid.GetRow(this.MapGrid.FindName("PlayerModel") as Image) + 1);
-                            this.Row = Grid.GetRow(this.MapGrid.FindName("PlayerModel") as Image).ToString();
-                        }
-                        break;
-                    }
-                case Key.A:
-                    {
-                        if (Grid.GetColumn(this.MapGrid.FindName("PlayerModel") as Image) > 0)
-                        {
-                            Grid.SetColumn(this.MapGrid.FindName("PlayerModel") as Image, Grid.GetColumn(this.MapGrid.FindName("PlayerModel") as Image) - 1);
-                            Column = Grid.GetColumn(this.MapGrid.FindName("PlayerModel") as Image).ToString();
-                        }
-                        break;
-                    }
-                case Key.D:
-                    {
-                        if (Grid.GetColumn(this.MapGrid.FindName("PlayerModel") as Image) < this.MapGrid.ColumnDefinitions.Count - 1)
-                        {
-                            Grid.SetColumn(this.MapGrid.FindName("PlayerModel") as Image, Grid.GetColumn(this.MapGrid.FindName("PlayerModel") as Image) + 1);
-                            Column = Grid.GetColumn(this.MapGrid.FindName("PlayerModel") as Image).ToString();
-                        }
-                        break;
-                    }
+                map.ChangePlayerPosition(e.Key);
             }
         }
     }

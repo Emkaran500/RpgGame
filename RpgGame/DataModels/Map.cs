@@ -19,11 +19,11 @@ namespace RpgGame.DataModels;
 public class Map
 {
     public Grid MapGrid;
-    public Image newTile;
+    public MapTile[] mapTiles;
 
-    public Map(Grid mapGrid)
+    public Map(Grid mapGrid, MapTile[] tiles)
     {
-        MapGrid = mapGrid;
-        newTile = new Image();
+        this.MapGrid = mapGrid;
+        this.mapTiles = tiles;
     }
 }

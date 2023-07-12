@@ -11,6 +11,7 @@
     <None Remove="Assets\grass_tile_1.png" />
     <None Remove="Assets\grass_tile_2.png" />
     <None Remove="Assets\grass_tile_3.png" />
+    <None Remove="Assets\MapTiles.json" />
     <None Remove="Assets\player_texture.png" />
     <None Remove="Assets\water_tile_1.png" />
     <None Remove="Assets\water_tile_2.png" />
@@ -28,6 +29,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Assets\grass_tile_3.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Assets\MapTiles.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Assets\player_texture.png">

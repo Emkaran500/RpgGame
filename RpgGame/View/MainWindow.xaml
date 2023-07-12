@@ -25,8 +25,8 @@
                 <UniformGrid Margin="10 10 10 10" Height="100">
                     <Button Style="{StaticResource MapButton}" Content="Enter Shop"/>
                     <Button Style="{StaticResource MapButton}" Content="Inventory"/>
-                    <Button Style="{StaticResource MapButton}" Content="{Binding Row}"/>
-                    <Button Style="{StaticResource MapButton}" Content="{Binding Column}"/>
+                    <Button Style="{StaticResource MapButton}" Content="Attack Enemy"/>
+                    <Button Style="{StaticResource MapButton}" Content="Unknown"/>
                 </UniformGrid>
             </Border>
             <RichTextBox DockPanel.Dock="Top" IsEnabled="False" FontSize="20">
