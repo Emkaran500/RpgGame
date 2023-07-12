@@ -58,9 +58,17 @@ namespace RpgGame
             this.AddTilesToGrid(this.MapGrid.ColumnDefinitions.Count, this.MapGrid.RowDefinitions.Count);
             this.AddPlayerToMap();
 
-            if ()
-            this.Row = Grid.GetRow((Image)this.MapGrid.FindName("PlayerModel")).ToString();
-            this.Column = Grid.GetColumn(this.MapGrid.FindName("PlayerModel") as Image).ToString();
+            if (this.MapGrid.FindName("PlayerModel") != null)
+            {
+                Image playerModel = this.MapGrid.FindName("PlayerModel") as Image;
+                this.Row = Grid.GetRow(playerModel).ToString();
+            }
+            if (this.MapGrid.FindName("PlayerModel") != null)
+            {
+                Image playerModel = this.MapGrid.FindName("PlayerModel") as Image;
+                this.Column = Grid.GetColumn(playerModel).ToString();
+            }
+            //this.Column = Grid.GetColumn(this.MapGrid.FindName("PlayerModel") as Image).ToString();
 
             this.KeyDown += MainWindow_KeyDown;
         }
@@ -86,7 +94,7 @@ namespace RpgGame
             Image newPlayer = new Image();
             BitmapImage playerSource = new BitmapImage(new Uri("C:\\Users\\PC\\Desktop\\Степит\\RpgGame\\RpgGame\\Assets\\player_texture.png"));
             newPlayer.Source = playerSource;
-            newPlayer.Name = "PlayerModel";
+            RegisterName("PlayerModel", newPlayer);
             this.MapGrid.Children.Add(newPlayer);
             Grid.SetRow(newPlayer, 0);
             Grid.SetColumn(newPlayer, 0);
