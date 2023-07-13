@@ -16,6 +16,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO;
 using RpgGame.DataModels;
+using RpgGame.View;
 
 namespace RpgGame
 {
@@ -25,33 +26,6 @@ namespace RpgGame
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
         public Map map;
-        private string column;
-        public string Column
-        {
-            get => this.column;
-            set
-            {
-                this.column = value;
-                if (PropertyChanged != null)
-                {
-                    PropertyChanged.Invoke(this, new PropertyChangedEventArgs(nameof(Column)));
-                }
-            }
-        }
-
-        private string row;
-        public string Row
-        {
-            get => this.row;
-            set
-            {
-                this.row = value;
-                if (PropertyChanged != null)
-                {
-                    PropertyChanged.Invoke(this, new PropertyChangedEventArgs(nameof(Row)));
-                }
-            }
-        }
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -60,7 +34,7 @@ namespace RpgGame
             InitializeComponent();
             this.DataContext = this;
 
-            string mapTilesPath = "C:\\Users\\PC\\Desktop\\Степит\\RpgGame\\RpgGame\\Assets\\MapTiles.json";
+            string mapTilesPath = "Assets\\MapTiles.json";
             string mapFromJson = File.ReadAllText(mapTilesPath);
             MapTile[] mapTiles = JsonSerializer.Deserialize<MapTile[]>(mapFromJson);
 
@@ -77,12 +51,10 @@ namespace RpgGame
             if (this.MapGrid.FindName("PlayerModel") != null)
             {
                 Image playerModel = map.MapGrid.FindName("PlayerModel") as Image;
-                this.Row = Grid.GetRow(playerModel).ToString();
             }
             if (map.MapGrid.FindName("PlayerModel") != null)
             {
                 Image playerModel = map.MapGrid.FindName("PlayerModel") as Image;
-                this.Column = Grid.GetColumn(playerModel).ToString();
             }
 
             this.KeyDown += MainWindow_KeyDown;
@@ -103,6 +75,33 @@ namespace RpgGame
             {
                 map.ChangePlayerPosition(e.Key);
             }
+        }
+
+        private void ShopOpenClick(object sender, RoutedEventArgs e)
+        {
+            Window shopWindow = new Shop();
+            this.GameWindow.IsEnabled = false;
+            shopWindow.ShowInTaskbar = false;
+            shopWindow.Owner = Application.Current.MainWindow;
+            shopWindow.Show();
+        }
+
+        private void AttackEnemyClick(object sender, RoutedEventArgs e)
+        {
+            Window battleWindow = new Battle();
+            this.GameWindow.IsEnabled = false;
+            battleWindow.ShowInTaskbar = false;
+            battleWindow.Owner = Application.Current.MainWindow;
+            battleWindow.Show();
+        }
+
+        private void InventoryOpenClick(object sender, RoutedEventArgs e)
+        {
+            Window inventoryWindow = new Inventory();
+            this.GameWindow.IsEnabled = false;
+            inventoryWindow.ShowInTaskbar = false;
+            inventoryWindow.Owner = Application.Current.MainWindow;
+            inventoryWindow.Show();
         }
     }
 }

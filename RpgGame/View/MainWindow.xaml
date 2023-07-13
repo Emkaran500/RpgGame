@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RpgGame"
         mc:Ignorable="d"
-        Title="Rpg Game" Height="450" Width="800" Background="LightSlateGray">
+        Title="Rpg Game" x:Name="GameWindow" Height="450" Width="800" Background="LightSlateGray">
     <DockPanel LastChildFill="True">
         <DockPanel.Resources>
             <ResourceDictionary>
@@ -23,9 +23,9 @@
         <DockPanel DockPanel.Dock="Right" Width="200" Background="FloralWhite">
             <Border DockPanel.Dock="Bottom" Margin="5" Background="GhostWhite" BorderBrush="Silver" BorderThickness="1" CornerRadius="8,8,3,3">
                 <UniformGrid Margin="10 10 10 10" Height="100">
-                    <Button Style="{StaticResource MapButton}" Content="Enter Shop"/>
-                    <Button Style="{StaticResource MapButton}" Content="Inventory"/>
-                    <Button Style="{StaticResource MapButton}" Content="Attack Enemy"/>
+                    <Button Style="{StaticResource MapButton}" Content="Enter Shop" Click="ShopOpenClick"/>
+                    <Button Style="{StaticResource MapButton}" Content="Inventory" Click="InventoryOpenClick"/>
+                    <Button Style="{StaticResource MapButton}" Content="Attack Enemy" Click="AttackEnemyClick"/>
                     <Button Style="{StaticResource MapButton}" Content="Unknown"/>
                 </UniformGrid>
             </Border>
