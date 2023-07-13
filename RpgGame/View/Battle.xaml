@@ -5,8 +5,57 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RpgGame.View"
         mc:Ignorable="d"
-        Title="Battle" Height="450" Width="800">
+        Title="Battle" Height="450" Width="500">
     <Grid>
+        <Grid.Resources>
+            <ResourceDictionary>
+                <ResourceDictionary.MergedDictionaries>
+                    <ResourceDictionary Source="../Styles/MapButtonsStyle.xaml"/>
+                    <ResourceDictionary Source="../Styles/TilesStyle.xaml"/>
+                </ResourceDictionary.MergedDictionaries>
+            </ResourceDictionary>
+        </Grid.Resources>
+
+            <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Image Grid.Column="0"/>
+            <Image Grid.Column="1"/>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <DockPanel Grid.Column="0" LastChildFill="True">
+                <ListBox/>
+            </DockPanel>
+            
+            <DockPanel Grid.Column="1" LastChildFill="True">
+                <ListBox/>
+            </DockPanel>
+
+            <DockPanel Grid.Column="2" LastChildFill="True" Margin="40">
+                <Button DockPanel.Dock="Bottom" Style="{StaticResource MapButton}" Content="Attack" />
+                <ListBox/>
+            </DockPanel>
+        </Grid>
+
+        
         
     </Grid>
 </Window>
