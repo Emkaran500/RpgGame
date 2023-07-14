@@ -32,15 +32,19 @@ public class Player : Character
         set => this.playerAttack = value;
     }
 
+    public static Player Instance
+    {
+        get => new Player();
+    }
+
     public string PlayerName { get; set; } = "PlayerModel";
     public Image PlayerModel { get; set; }
     public static string PlayerURL { get; set; } = "player_texture.png";
-    public static Image CreatePlayer()
-    {
-        Image newPlayer = new Image();
-        BitmapImage playerSource = new BitmapImage(new Uri(PlayerURL, UriKind.Relative));
-        newPlayer.Source = playerSource;
 
-        return newPlayer;
+    private Player()
+    {
+        this.PlayerModel = new Image();
+        BitmapImage playerSource = new BitmapImage(new Uri(PlayerURL, UriKind.Relative));
+        this.PlayerModel.Source = playerSource;
     }
 }

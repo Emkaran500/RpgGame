@@ -46,18 +46,31 @@ namespace RpgGame
                 tileSource[i] = new BitmapImage(new Uri(mapTiles[i].TileURL, UriKind.Relative));
             }
             map.AddTilesToGrid(map.MapGrid.ColumnDefinitions.Count, map.MapGrid.RowDefinitions.Count, tileSource);
+            this.AddEnemiesToMap(3);
             this.AddPlayerToMap();
 
             this.KeyDown += MainWindow_KeyDown;
         }
 
+        private void AddEnemiesToMap(int numOfEnemies)
+        {
+            for (int i = 0; i < numOfEnemies; i++)
+            {
+                Enemy newEnemy = new Enemy();
+                map.MapGrid.Children.Add(newEnemy.EnemyModel);
+                RegisterName(newEnemy.EnemyName + $"{i + 1}", newEnemy.EnemyModel);
+                Grid.SetRow(newEnemy.EnemyModel, i + 1);
+                Grid.SetColumn(newEnemy.EnemyModel, i + 1);
+            }
+        }
+
         private void AddPlayerToMap()
         {
-            Image newPlayer = Player.CreatePlayer();
-            map.MapGrid.Children.Add(newPlayer);
-            RegisterName("PlayerModel", newPlayer);
-            Grid.SetRow(newPlayer, 0);
-            Grid.SetColumn(newPlayer, 0);
+            Player newPlayer = Player.Instance;
+            map.MapGrid.Children.Add(newPlayer.PlayerModel);
+            RegisterName(newPlayer.PlayerName, newPlayer.PlayerModel);
+            Grid.SetRow(newPlayer.PlayerModel, 0);
+            Grid.SetColumn(newPlayer.PlayerModel, 0);
         }
 
         private void MainWindow_KeyDown(object sender, KeyEventArgs e)

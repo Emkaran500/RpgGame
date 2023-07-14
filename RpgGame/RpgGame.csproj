@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\enemy_texture.png" />
     <None Remove="Assets\grass_tile_1.png" />
     <None Remove="Assets\grass_tile_2.png" />
     <None Remove="Assets\grass_tile_3.png" />
@@ -15,6 +16,7 @@
     <None Remove="Assets\player_texture.png" />
     <None Remove="Assets\water_tile_1.png" />
     <None Remove="Assets\water_tile_2.png" />
+    <None Remove="View\enemy_texture.png" />
     <None Remove="View\grass_tile_1.png" />
     <None Remove="View\grass_tile_2.png" />
     <None Remove="View\grass_tile_3.png" />
@@ -22,12 +24,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Assets\enemy_texture.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Assets\MapTiles.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Assets\player_texture.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <Resource Include="View\enemy_texture.png" />
     <Resource Include="View\grass_tile_1.png" />
     <Resource Include="View\grass_tile_2.png" />
     <Resource Include="View\grass_tile_3.png" />
