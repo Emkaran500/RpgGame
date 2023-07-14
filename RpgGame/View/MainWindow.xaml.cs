@@ -48,15 +48,6 @@ namespace RpgGame
             map.AddTilesToGrid(map.MapGrid.ColumnDefinitions.Count, map.MapGrid.RowDefinitions.Count, tileSource);
             this.AddPlayerToMap();
 
-            if (this.MapGrid.FindName("PlayerModel") != null)
-            {
-                Image playerModel = map.MapGrid.FindName("PlayerModel") as Image;
-            }
-            if (map.MapGrid.FindName("PlayerModel") != null)
-            {
-                Image playerModel = map.MapGrid.FindName("PlayerModel") as Image;
-            }
-
             this.KeyDown += MainWindow_KeyDown;
         }
 

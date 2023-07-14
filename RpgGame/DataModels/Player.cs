@@ -16,8 +16,22 @@ using System.Windows.Shapes;
 using RpgGame.DataModels;
 
 namespace RpgGame.DataModels;
-public class Player
+public class Player : Character
 {
+    private int playerHealth = baseHealth;
+    public int PlayerHealth 
+    {
+        get => this.playerHealth;
+        set => this.playerHealth = value; 
+    }
+
+    private int playerAttack = baseAttack;
+    public int PlayerAttack
+    {
+        get => this.playerAttack;
+        set => this.playerAttack = value;
+    }
+
     public string PlayerName { get; set; } = "PlayerModel";
     public Image PlayerModel { get; set; }
     public static string PlayerURL { get; set; } = "player_texture.png";
