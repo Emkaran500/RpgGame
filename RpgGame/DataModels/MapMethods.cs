@@ -49,47 +49,4 @@ public static class MapMethods
             }
         }
     }
-
-    public static void ChangePlayerPosition(this Map map, Player player, Key key)
-    {
-        switch (key)
-        {
-            case Key.W:
-                {
-                    if (Grid.GetRow(player.PlayerModel) > 0)
-                    {
-                        Grid.SetRow(player.PlayerModel, Grid.GetRow(player.PlayerModel) - 1);
-                        map.ShowTileInfo(player);
-                    }
-                    break;
-                }
-            case Key.S:
-                {
-                    if (Grid.GetRow(player.PlayerModel) < map.MapGrid.RowDefinitions.Count - 1)
-                    {
-                        Grid.SetRow(player.PlayerModel, Grid.GetRow(player.PlayerModel) + 1);
-                        map.ShowTileInfo(player);
-                    }
-                    break;
-                }
-            case Key.A:
-                {
-                    if (Grid.GetColumn(player.PlayerModel) > 0)
-                    {
-                        Grid.SetColumn(player.PlayerModel, Grid.GetColumn(player.PlayerModel) - 1);
-                        map.ShowTileInfo(player);
-                    }
-                    break;
-                }
-            case Key.D:
-                {
-                    if (Grid.GetColumn(player.PlayerModel) < map.MapGrid.ColumnDefinitions.Count - 1)
-                    {
-                        Grid.SetColumn(player.PlayerModel, Grid.GetColumn(player.PlayerModel) + 1);
-                        map.ShowTileInfo(player);
-                    }
-                    break;
-                }
-        }
-    }
 }

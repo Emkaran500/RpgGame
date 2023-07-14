@@ -73,4 +73,47 @@ public class Player : Character, INotifyPropertyChanged
         this.PlayerModel.Source = playerSource;
         this.CurrentPlayerInfo = $"Health: {this.playerHealth}";
     }
+
+    public void ChangePlayerPosition(Map map, Key key)
+    {
+        switch (key)
+        {
+            case Key.W:
+                {
+                    if (Grid.GetRow(this.PlayerModel) > 0)
+                    {
+                        Grid.SetRow(this.PlayerModel, Grid.GetRow(this.PlayerModel) - 1);
+                        map.ShowTileInfo(this);
+                    }
+                    break;
+                }
+            case Key.S:
+                {
+                    if (Grid.GetRow(this.PlayerModel) < map.MapGrid.RowDefinitions.Count - 1)
+                    {
+                        Grid.SetRow(this.PlayerModel, Grid.GetRow(this.PlayerModel) + 1);
+                        map.ShowTileInfo(this);
+                    }
+                    break;
+                }
+            case Key.A:
+                {
+                    if (Grid.GetColumn(this.PlayerModel) > 0)
+                    {
+                        Grid.SetColumn(this.PlayerModel, Grid.GetColumn(this.PlayerModel) - 1);
+                        map.ShowTileInfo(this);
+                    }
+                    break;
+                }
+            case Key.D:
+                {
+                    if (Grid.GetColumn(this.PlayerModel) < map.MapGrid.ColumnDefinitions.Count - 1)
+                    {
+                        Grid.SetColumn(this.PlayerModel, Grid.GetColumn(this.PlayerModel) + 1);
+                        map.ShowTileInfo(this);
+                    }
+                    break;
+                }
+        }
+    }
 }

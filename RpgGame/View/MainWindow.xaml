@@ -29,7 +29,7 @@
                 <UniformGrid Margin="10 10 10 10" Height="100">
                     <Button Style="{StaticResource MapButton}" Content="Enter Shop" Click="ShopOpenClick"/>
                     <Button Style="{StaticResource MapButton}" Content="Inventory" Click="InventoryOpenClick"/>
-                    <Button Style="{StaticResource MapButton}" Content="Attack Enemy" Click="AttackEnemyClick"/>
+                    <Button x:Name="AttackButton" Style="{StaticResource MapButton}" Content="Attack Enemy" Click="AttackEnemyClick"/>
                     <Button Style="{StaticResource MapButton}" Content="Unknown"/>
                 </UniformGrid>
             </Border>

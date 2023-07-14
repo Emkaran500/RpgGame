@@ -53,6 +53,7 @@ namespace RpgGame
             this.TileInfo.DataContext = this.map;
             this.HasEnemyInfo.DataContext = this.map;
             this.PlayerInfo.DataContext = this.player;
+            this.AttackButtonAccessability();
 
             this.KeyDown += MainWindow_KeyDown;
         }
@@ -92,12 +93,26 @@ namespace RpgGame
             Grid.SetColumn(this.player.PlayerModel, 0);
         }
 
+        private void AttackButtonAccessability()
+        {
+            int currentPosition = (Grid.GetRow(this.player.PlayerModel) * map.MapGrid.ColumnDefinitions.Count) + Grid.GetColumn(this.player.PlayerModel);
+            if (Enemy.oldPositionPairs.Any(numPair => numPair == (map.mapTiles[currentPosition].TileRow, map.mapTiles[currentPosition].TileColumn)))
+            {
+                this.AttackButton.IsEnabled = true;
+            }
+            else
+            {
+                this.AttackButton.IsEnabled = false;
+            }
+        }
+
         private void MainWindow_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.W || e.Key == Key.S || e.Key == Key.A || e.Key == Key.D)
             {
-                map.ChangePlayerPosition(this.player, e.Key);
+                this.player.ChangePlayerPosition(this.map, e.Key);
             }
+            this.AttackButtonAccessability();
         }
 
         private void ShopOpenClick(object sender, RoutedEventArgs e)
