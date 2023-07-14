@@ -24,7 +24,6 @@ public class MapTile
     public string TileName { get; set; }
     public int TileRow { get; set; }
     public int TileColumn { get; set; }
-
     [JsonIgnore]
     public Image tileModel = new Image();
 }

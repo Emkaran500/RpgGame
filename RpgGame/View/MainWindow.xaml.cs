@@ -26,6 +26,7 @@ namespace RpgGame
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
         public Map map;
+        public Player player = Player.Instance;
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -46,8 +47,12 @@ namespace RpgGame
                 tileSource[i] = new BitmapImage(new Uri(mapTiles[i].TileURL, UriKind.Relative));
             }
             map.AddTilesToGrid(map.MapGrid.ColumnDefinitions.Count, map.MapGrid.RowDefinitions.Count, tileSource);
-            this.AddEnemiesToMap(3);
+            this.AddEnemiesToMap(BaseInfo.numOfEnemies);
             this.AddPlayerToMap();
+            this.map.ShowTileInfo(this.player);
+            this.TileInfo.DataContext = this.map;
+            this.HasEnemyInfo.DataContext = this.map;
+            this.PlayerInfo.DataContext = this.player;
 
             this.KeyDown += MainWindow_KeyDown;
         }
@@ -56,28 +61,42 @@ namespace RpgGame
         {
             for (int i = 0; i < numOfEnemies; i++)
             {
-                Enemy newEnemy = new Enemy();
+                Random random = new Random();
+                int newRowPosition = random.Next(1, this.MapGrid.RowDefinitions.Count);
+                int newColumnPosition = random.Next(1, this.MapGrid.ColumnDefinitions.Count);
+
+                if (Enemy.oldPositionPairs.Any(numPair => numPair != (0, 0)))
+                {
+                    while (Enemy.oldPositionPairs.Any(numPair => numPair == (newRowPosition, newColumnPosition)))
+                    {
+                        newRowPosition = random.Next(1, this.MapGrid.RowDefinitions.Count);
+                        newColumnPosition = random.Next(1, this.MapGrid.ColumnDefinitions.Count);
+                    }
+                }
+
+                Enemy.oldPositionPairs = Enemy.oldPositionPairs.Append((newRowPosition, newColumnPosition)).ToArray<(int, int)>();
+                
+                Enemy newEnemy = new Enemy(newRowPosition, newColumnPosition);
                 map.MapGrid.Children.Add(newEnemy.EnemyModel);
                 RegisterName(newEnemy.EnemyName + $"{i + 1}", newEnemy.EnemyModel);
-                Grid.SetRow(newEnemy.EnemyModel, i + 1);
-                Grid.SetColumn(newEnemy.EnemyModel, i + 1);
+                Grid.SetRow(newEnemy.EnemyModel, newRowPosition);
+                Grid.SetColumn(newEnemy.EnemyModel, newColumnPosition);
             }
         }
 
         private void AddPlayerToMap()
         {
-            Player newPlayer = Player.Instance;
-            map.MapGrid.Children.Add(newPlayer.PlayerModel);
-            RegisterName(newPlayer.PlayerName, newPlayer.PlayerModel);
-            Grid.SetRow(newPlayer.PlayerModel, 0);
-            Grid.SetColumn(newPlayer.PlayerModel, 0);
+            map.MapGrid.Children.Add(this.player.PlayerModel);
+            RegisterName(this.player.PlayerName, this.player.PlayerModel);
+            Grid.SetRow(this.player.PlayerModel, 0);
+            Grid.SetColumn(this.player.PlayerModel, 0);
         }
 
         private void MainWindow_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.W || e.Key == Key.S || e.Key == Key.A || e.Key == Key.D)
             {
-                map.ChangePlayerPosition(e.Key);
+                map.ChangePlayerPosition(this.player, e.Key);
             }
         }
 
@@ -106,6 +125,11 @@ namespace RpgGame
             inventoryWindow.ShowInTaskbar = false;
             inventoryWindow.Owner = Application.Current.MainWindow;
             inventoryWindow.Show();
+        }
+
+        private void ExitClick(object sender, RoutedEventArgs e)
+        {
+            System.Environment.Exit(0);
         }
     }
 }

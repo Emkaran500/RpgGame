@@ -16,7 +16,7 @@ using System.Windows.Shapes;
 using RpgGame.DataModels;
 
 namespace RpgGame.DataModels;
-public class Player : Character
+public class Player : Character, INotifyPropertyChanged
 {
     private int playerHealth = baseHealth;
     public int PlayerHealth 
@@ -37,14 +37,40 @@ public class Player : Character
         get => new Player();
     }
 
-    public string PlayerName { get; set; } = "PlayerModel";
+    public string PlayerName { get; set; } = BaseInfo.playerName;
     public Image PlayerModel { get; set; }
-    public static string PlayerURL { get; set; } = "player_texture.png";
+    public static string PlayerURL { get; set; } = BaseInfo.playerSource;
+
+    private string? currentPlayerInfo;
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    public string? CurrentPlayerInfo
+    {
+        get => currentPlayerInfo;
+        set
+        {
+            if (currentPlayerInfo == null)
+            {
+                currentPlayerInfo = "Health: " + this.playerHealth.ToString() + "\n";
+            }
+            else
+            {
+                currentPlayerInfo = "Health: " + value + "\n";
+            }
+
+            if (this.PropertyChanged != null)
+            {
+                this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentPlayerInfo)));
+            }
+        }
+    }
 
     private Player()
     {
         this.PlayerModel = new Image();
         BitmapImage playerSource = new BitmapImage(new Uri(PlayerURL, UriKind.Relative));
         this.PlayerModel.Source = playerSource;
+        this.CurrentPlayerInfo = $"Health: {this.playerHealth}";
     }
 }

@@ -35,14 +35,20 @@ public class Enemy : Character
         set => enemyAttack = value;
     }
 
-    public string EnemyName { get; set; } = "EnemyModel";
-    public Image EnemyModel { get; set; }
-    public static string EnemyURL { get; set; } = "enemy_texture.png";
+    public int enemyRow;
+    public int enemyColumn;
 
-    public Enemy()
+    public string EnemyName { get; set; } = BaseInfo.enemyName;
+    public Image EnemyModel { get; set; }
+    public static string EnemyURL { get; set; } = BaseInfo.enemySource;
+    public static (int, int)[] oldPositionPairs = new (int, int)[0];
+
+    public Enemy(int enemyRow, int enemyColumn)
     {
         this.EnemyModel = new Image();
         BitmapImage enemySource = new BitmapImage(new Uri(EnemyURL, UriKind.Relative));
         this.EnemyModel.Source = enemySource;
+        this.enemyRow = enemyRow;
+        this.enemyColumn = enemyColumn;
     }
 }

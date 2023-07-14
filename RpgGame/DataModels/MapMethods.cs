@@ -32,39 +32,61 @@ public static class MapMethods
         }
     }
 
-    public static void ChangePlayerPosition(this Map map, Key key)
+    public static void ShowTileInfo (this Map map, Player player)
+    {
+        if (map.MapGrid.FindName(player.PlayerName) != null)
+        {
+            Image currentPlayer = map.MapGrid.FindName(player.PlayerName) as Image;
+            int currentPosition = (Grid.GetRow(currentPlayer) * map.MapGrid.ColumnDefinitions.Count) + Grid.GetColumn(currentPlayer);
+            map.CurrentTileName = map.mapTiles[currentPosition].TileName;
+            if (Enemy.oldPositionPairs.Any(numPair => numPair == (map.mapTiles[currentPosition].TileRow, map.mapTiles[currentPosition].TileColumn)))
+            {
+                map.CurrentTileHasEnemy = "Has Enemy in Tile: " + true.ToString();
+            }
+            else
+            {
+                map.CurrentTileHasEnemy = "Has Enemy in Tile: " + false.ToString();
+            }
+        }
+    }
+
+    public static void ChangePlayerPosition(this Map map, Player player, Key key)
     {
         switch (key)
         {
             case Key.W:
                 {
-                    if (Grid.GetRow(map.MapGrid.FindName("PlayerModel") as Image) > 0)
+                    if (Grid.GetRow(player.PlayerModel) > 0)
                     {
-                        Grid.SetRow(map.MapGrid.FindName("PlayerModel") as Image, Grid.GetRow(map.MapGrid.FindName("PlayerModel") as Image) - 1);
+                        Grid.SetRow(player.PlayerModel, Grid.GetRow(player.PlayerModel) - 1);
+                        map.ShowTileInfo(player);
                     }
                     break;
                 }
             case Key.S:
                 {
-                    if (Grid.GetRow(map.MapGrid.FindName("PlayerModel") as Image) < map.MapGrid.RowDefinitions.Count - 1)
+                    if (Grid.GetRow(player.PlayerModel) < map.MapGrid.RowDefinitions.Count - 1)
                     {
-                        Grid.SetRow(map.MapGrid.FindName("PlayerModel") as Image, Grid.GetRow(map.MapGrid.FindName("PlayerModel") as Image) + 1);
+                        Grid.SetRow(player.PlayerModel, Grid.GetRow(player.PlayerModel) + 1);
+                        map.ShowTileInfo(player);
                     }
                     break;
                 }
             case Key.A:
                 {
-                    if (Grid.GetColumn(map.MapGrid.FindName("PlayerModel") as Image) > 0)
+                    if (Grid.GetColumn(player.PlayerModel) > 0)
                     {
-                        Grid.SetColumn(map.MapGrid.FindName("PlayerModel") as Image, Grid.GetColumn(map.MapGrid.FindName("PlayerModel") as Image) - 1);
+                        Grid.SetColumn(player.PlayerModel, Grid.GetColumn(player.PlayerModel) - 1);
+                        map.ShowTileInfo(player);
                     }
                     break;
                 }
             case Key.D:
                 {
-                    if (Grid.GetColumn(map.MapGrid.FindName("PlayerModel") as Image) < map.MapGrid.ColumnDefinitions.Count - 1)
+                    if (Grid.GetColumn(player.PlayerModel) < map.MapGrid.ColumnDefinitions.Count - 1)
                     {
-                        Grid.SetColumn(map.MapGrid.FindName("PlayerModel") as Image, Grid.GetColumn(map.MapGrid.FindName("PlayerModel") as Image) + 1);
+                        Grid.SetColumn(player.PlayerModel, Grid.GetColumn(player.PlayerModel) + 1);
+                        map.ShowTileInfo(player);
                     }
                     break;
                 }

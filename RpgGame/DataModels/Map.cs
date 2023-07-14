@@ -16,10 +16,39 @@ using System.Windows.Shapes;
 using RpgGame.DataModels;
 
 namespace RpgGame.DataModels;
-public class Map
+public class Map: INotifyPropertyChanged
 {
     public Grid MapGrid;
+    private string? currentTileName = null;
+    public string? CurrentTileName
+    {
+        get => currentTileName;
+        set
+        {
+            currentTileName = value;
+            if (this.PropertyChanged != null)
+            {
+                this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentTileName)));
+            }
+        }
+    }
+
+    private string? currentTileHasEnemy = null;
+    public string? CurrentTileHasEnemy
+    {
+        get => currentTileHasEnemy;
+        set
+        {
+            currentTileHasEnemy = value;
+            if (this.PropertyChanged != null)
+            {
+                this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentTileHasEnemy)));
+            }
+        }
+    }
     public MapTile[] mapTiles;
+
+    public event PropertyChangedEventHandler? PropertyChanged;
 
     public Map(Grid mapGrid, MapTile[] tiles)
     {
