@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RpgGame.View"
         mc:Ignorable="d"
-        Title="Battle" Height="450" Width="500">
+        Title="Battle" Height="450" Width="500" Closing="Window_Closing">
     <Grid>
         <Grid.Resources>
             <ResourceDictionary>
@@ -30,8 +30,12 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
-            <Image Grid.Column="0"/>
-            <Image Grid.Column="1"/>
+            <Border Background="Red" Grid.Column="0">
+                <Image x:Name="EnemyAvatar" Grid.Column="0"/>
+            </Border>
+            <Border Background="Blue" Grid.Column="1">
+                <Image x:Name="PlayerAvatar" Grid.Column="1"/>
+            </Border>
         </Grid>
 
         <Grid Grid.Row="1">
@@ -42,7 +46,13 @@
             </Grid.ColumnDefinitions>
 
             <DockPanel Grid.Column="0" LastChildFill="True">
-                <ListBox/>
+                <RichTextBox Margin="40 40 40 70">
+                    <FlowDocument>
+                        <Paragraph>
+                            <Run x:Name="EnemyInfoTextBox" Text="{Binding EnemyHealthInfo}" FontSize="16"/>
+                        </Paragraph>
+                    </FlowDocument>
+                </RichTextBox>
             </DockPanel>
             
             <DockPanel Grid.Column="1" LastChildFill="True">
@@ -50,8 +60,14 @@
             </DockPanel>
 
             <DockPanel Grid.Column="2" LastChildFill="True" Margin="40">
-                <Button DockPanel.Dock="Bottom" Style="{StaticResource MapButton}" Content="Attack" />
-                <ListBox/>
+                <Button DockPanel.Dock="Bottom" Style="{StaticResource MapButton}" Content="Attack" Click="AttackButton_Click"/>
+                <RichTextBox>
+                    <FlowDocument>
+                        <Paragraph>
+                            <Run x:Name="PlayerInfoTextBox" Text="{Binding CurrentPlayerInfo}" FontSize="16"/>
+                        </Paragraph>
+                    </FlowDocument>
+                </RichTextBox>
             </DockPanel>
         </Grid>
 

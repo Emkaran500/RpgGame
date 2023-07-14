@@ -27,6 +27,7 @@ namespace RpgGame
     {
         public Map map;
         public Player player = Player.Instance;
+        public Enemy[] enemies = new Enemy[0];
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -34,6 +35,7 @@ namespace RpgGame
         {
             InitializeComponent();
             this.DataContext = this;
+            this.WindowState = WindowState.Maximized;
 
             string mapTilesPath = "Assets\\MapTiles.json";
             string mapFromJson = File.ReadAllText(mapTilesPath);
@@ -79,6 +81,7 @@ namespace RpgGame
                 
                 Enemy newEnemy = new Enemy(newRowPosition, newColumnPosition);
                 map.MapGrid.Children.Add(newEnemy.EnemyModel);
+                enemies = enemies.Append(newEnemy).ToArray();
                 RegisterName(newEnemy.EnemyName + $"{i + 1}", newEnemy.EnemyModel);
                 Grid.SetRow(newEnemy.EnemyModel, newRowPosition);
                 Grid.SetColumn(newEnemy.EnemyModel, newColumnPosition);
@@ -89,8 +92,10 @@ namespace RpgGame
         {
             map.MapGrid.Children.Add(this.player.PlayerModel);
             RegisterName(this.player.PlayerName, this.player.PlayerModel);
-            Grid.SetRow(this.player.PlayerModel, 0);
-            Grid.SetColumn(this.player.PlayerModel, 0);
+            this.player.playerRow = 0;
+            this.player.playerColumn = 0;
+            Grid.SetRow(this.player.PlayerModel, this.player.playerRow);
+            Grid.SetColumn(this.player.PlayerModel, this.player.playerColumn);
         }
 
         private void AttackButtonAccessability()
@@ -112,6 +117,7 @@ namespace RpgGame
             {
                 this.player.ChangePlayerPosition(this.map, e.Key);
             }
+            this.player.CurrentPlayerInfo = this.player.PlayerHealth.ToString();
             this.AttackButtonAccessability();
         }
 
@@ -126,7 +132,9 @@ namespace RpgGame
 
         private void AttackEnemyClick(object sender, RoutedEventArgs e)
         {
-            Window battleWindow = new Battle();
+            (int, int) enemyPosition = Enemy.oldPositionPairs.First(numPair => numPair == (this.player.playerRow, this.player.playerColumn));
+            Enemy enemy = enemies.First(enemy => enemy.enemyRow == enemyPosition.Item1 && enemy.enemyColumn == enemyPosition.Item2);
+            Window battleWindow = new Battle(this.player, enemy);
             this.GameWindow.IsEnabled = false;
             battleWindow.ShowInTaskbar = false;
             battleWindow.Owner = Application.Current.MainWindow;

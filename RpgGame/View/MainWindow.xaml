@@ -46,8 +46,8 @@
                                 <Paragraph>
                                     <Run x:Name="PlayerInfo" Text="{Binding CurrentPlayerInfo}" FontSize="15"/>
                                     <Run x:Name="TileInfo" Text="{Binding CurrentTileName}" FontSize="15"/>
-                                    <Run x:Name="HasEnemyInfo" Text="{Binding CurrentTileHasEnemy}" FontSize="15"/>
-                                </Paragraph>
+                            <Run x:Name="HasEnemyInfo" Text="{Binding CurrentTileHasEnemy}" FontSize="15"/>
+                        </Paragraph>
                             </FlowDocument>
                         </RichTextBox>
             </Border>

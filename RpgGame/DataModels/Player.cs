@@ -66,6 +66,9 @@ public class Player : Character, INotifyPropertyChanged
         }
     }
 
+    public int playerRow;
+    public int playerColumn;
+
     private Player()
     {
         this.PlayerModel = new Image();
@@ -83,6 +86,7 @@ public class Player : Character, INotifyPropertyChanged
                     if (Grid.GetRow(this.PlayerModel) > 0)
                     {
                         Grid.SetRow(this.PlayerModel, Grid.GetRow(this.PlayerModel) - 1);
+                        this.playerRow = Grid.GetRow(this.PlayerModel);
                         map.ShowTileInfo(this);
                     }
                     break;
@@ -92,6 +96,7 @@ public class Player : Character, INotifyPropertyChanged
                     if (Grid.GetRow(this.PlayerModel) < map.MapGrid.RowDefinitions.Count - 1)
                     {
                         Grid.SetRow(this.PlayerModel, Grid.GetRow(this.PlayerModel) + 1);
+                        this.playerRow = Grid.GetRow(this.PlayerModel);
                         map.ShowTileInfo(this);
                     }
                     break;
@@ -101,6 +106,7 @@ public class Player : Character, INotifyPropertyChanged
                     if (Grid.GetColumn(this.PlayerModel) > 0)
                     {
                         Grid.SetColumn(this.PlayerModel, Grid.GetColumn(this.PlayerModel) - 1);
+                        this.playerColumn = Grid.GetColumn(this.PlayerModel);
                         map.ShowTileInfo(this);
                     }
                     break;
@@ -110,6 +116,7 @@ public class Player : Character, INotifyPropertyChanged
                     if (Grid.GetColumn(this.PlayerModel) < map.MapGrid.ColumnDefinitions.Count - 1)
                     {
                         Grid.SetColumn(this.PlayerModel, Grid.GetColumn(this.PlayerModel) + 1);
+                        this.playerColumn = Grid.GetColumn(this.PlayerModel);
                         map.ShowTileInfo(this);
                     }
                     break;

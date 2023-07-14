@@ -21,11 +21,11 @@ using RpgGame.View;
 namespace RpgGame.DataModels;
 public class Enemy : Character
 {
-    private int enemyHeath = baseHealth;
-    public int EnemyHeath
+    private int enemyHealth = baseHealth;
+    public int EnemyHealth
     {
-        get => enemyHeath;
-        set => enemyHeath = value;
+        get => enemyHealth;
+        set => enemyHealth = value;
     }
 
     private int enemyAttack = baseAttack;
