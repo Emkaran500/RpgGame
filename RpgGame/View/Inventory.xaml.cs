@@ -35,6 +35,8 @@ namespace RpgGame.View
             InitializeComponent();
             this.player = Player.Instance;
             this.DataContext = this.player;
+            this.EquipButton.IsEnabled = false;
+            this.UnequipButton.IsEnabled = false;
         }
 
         private void Window_Closing(object sender, CancelEventArgs e)
@@ -43,29 +45,21 @@ namespace RpgGame.View
             Application.Current.MainWindow.Activate();
         }
 
-        private void ArmoursListBox_GotFocus(object sender, RoutedEventArgs e)
-        {
-            object selectedItem = this.ArmoursListBox.SelectedItem;
-            this.selectedListBoxItem = this.ArmoursListBox.ItemContainerGenerator.ContainerFromItem(selectedItem) as ListBoxItem;
-        }
-
-        private void WeaponsListBox_GotFocus(object sender, RoutedEventArgs e)
-        {
-            object selectedItem = this.WeaponsListBox.SelectedItem;
-            this.selectedListBoxItem = this.WeaponsListBox.ItemContainerGenerator.ContainerFromItem(selectedItem) as ListBoxItem;
-        }
-
         private void EquipButton_Click(object sender, RoutedEventArgs e)
-        {
+        { 
             if (this.selectedListBoxItem != null)
             {
                 if (this.selectedListBoxItem.Content is Weapon)
                 {
                     Weapon weapon = this.selectedListBoxItem.Content as Weapon;
-                    this.player.currentWeapon = weapon;
-                    this.player.WeaponName = weapon.WeaponName;
-                    this.player.CharacterAttack = Character.baseAttack + this.player.currentWeapon.WeaponDamage;
-                    this.player.CurrentPlayerAttackInfo = this.player.CharacterAttack.ToString();
+
+                    if (this.player.currentWeapon != weapon)
+                    {
+                        this.player.currentWeapon = weapon;
+                        this.player.WeaponName = weapon.WeaponName;
+                        this.player.CharacterAttack = Character.baseAttack + this.player.currentWeapon.WeaponDamage;
+                        this.player.CurrentPlayerAttackInfo = this.player.CharacterAttack.ToString();
+                    }
                 }
                 else if (this.selectedListBoxItem.Content is Armour)
                 {
@@ -73,17 +67,23 @@ namespace RpgGame.View
                     if (this.player.currentArmour == null)
                     {
                         this.player.currentArmour = armour;
+                        this.player.ArmourName = armour.ArmourName;
                         this.player.CharacterHealth = this.player.CharacterHealth + this.player.currentArmour.ArmourDefense;
                     }
                     else
                     {
-                        this.player.CharacterHealth = this.player.CharacterHealth - this.player.currentArmour.ArmourDefense + armour.ArmourDefense;
-                        if (this.player.CharacterHealth <= 0)
+                        if (this.player.currentArmour != armour)
                         {
-                            this.player.CharacterHealth = 1;
+                            this.player.CharacterHealth = this.player.CharacterHealth - this.player.currentArmour.ArmourDefense + armour.ArmourDefense;
+                            this.player.currentArmour = armour;
+                            if (this.player.CharacterHealth <= 0)
+                            {
+                                this.player.CharacterHealth = 1;
+                            }
+                            this.player.ArmourName = armour.ArmourName;
                         }
+                        
                     }
-                    this.player.ArmourName = armour.ArmourName;
                     this.player.CurrentPlayerHealthInfo = this.player.CharacterHealth.ToString();
                 }
             }
@@ -124,6 +124,38 @@ namespace RpgGame.View
                     }
                 }
             }
+        }
+
+        private void EquipmentListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (sender is ListBox)
+            {
+                ListBox listBox = sender as ListBox;
+                if (listBox.Name == nameof(WeaponsListBox))
+                {
+                    object selectedItem = this.WeaponsListBox.SelectedItem;
+                    this.selectedListBoxItem = this.WeaponsListBox.ItemContainerGenerator.ContainerFromItem(selectedItem) as ListBoxItem;
+                }
+                if (listBox.Name == nameof(ArmoursListBox))
+                {
+                    object selectedItem = this.ArmoursListBox.SelectedItem;
+                    this.selectedListBoxItem = this.ArmoursListBox.ItemContainerGenerator.ContainerFromItem(selectedItem) as ListBoxItem;
+                }
+                this.EquipButton.IsEnabled = true;
+                this.UnequipButton.IsEnabled = true;
+            }
+        }
+
+        private void WeaponsListBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            object selectedItem = this.WeaponsListBox.SelectedItem;
+            this.selectedListBoxItem = this.WeaponsListBox.ItemContainerGenerator.ContainerFromItem(selectedItem) as ListBoxItem;
+        }
+
+        private void ArmoursListBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            object selectedItem = this.ArmoursListBox.SelectedItem;
+            this.selectedListBoxItem = this.ArmoursListBox.ItemContainerGenerator.ContainerFromItem(selectedItem) as ListBoxItem;
         }
     }
 }

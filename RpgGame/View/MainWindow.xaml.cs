@@ -52,7 +52,7 @@ namespace RpgGame
             for (int i = 0; i < tileSource.Length; i++)
             {
                 tileSource[i] = new BitmapImage(new Uri(mapTiles[i].TileURL, UriKind.Relative));
-            }
+            s}
             map.AddTilesToGrid(map.MapGrid.ColumnDefinitions.Count, map.MapGrid.RowDefinitions.Count, tileSource);
             this.AddEnemiesToMap(BaseInfo.numOfEnemies);
             this.AddPlayerToMap();

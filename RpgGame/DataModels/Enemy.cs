@@ -84,7 +84,7 @@ public class Enemy : Character, INotifyPropertyChanged
         this.CharacterModel.Source = enemySource;
         this.enemyRow = enemyRow;
         this.enemyColumn = enemyColumn;
-        this.CharacterHealth = baseHealth;
+        this.CharacterHealth = baseHealth + 50;
         this.CurrentEnemyHealthInfo = this.CharacterHealth.ToString();
     }
 }

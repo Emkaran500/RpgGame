@@ -1,0 +1,82 @@
+[
+  {
+    "ArmourDefense": 88,
+    "ArmourDefenseInfo": "88",
+    "ArmourName": "Plate Armour",
+    "armourDefense": 88,
+    "armourDefenseInfo": "88",
+    "armourName": "Plate Armour"
+  },
+  {
+    "ArmourDefense": 16,
+    "ArmourDefenseInfo": "16",
+    "ArmourName": "Wooden Armour",
+    "armourDefense": 16,
+    "armourDefenseInfo": "16",
+    "armourName": "Wooden Armour"
+  },
+  {
+    "ArmourDefense": 40,
+    "ArmourDefenseInfo": "40",
+    "ArmourName": "Iron Armour",
+    "armourDefense": 40,
+    "armourDefenseInfo": "40",
+    "armourName": "Iron Armour"
+  },
+  {
+    "ArmourDefense": 97,
+    "ArmourDefenseInfo": "97",
+    "ArmourName": "Diamond Armour",
+    "armourDefense": 97,
+    "armourDefenseInfo": "97",
+    "armourName": "Diamond Armour"
+  },
+  {
+    "ArmourDefense": 79,
+    "ArmourDefenseInfo": "79",
+    "ArmourName": "Stone Armour",
+    "armourDefense": 79,
+    "armourDefenseInfo": "79",
+    "armourName": "Stone Armour"
+  },
+  {
+    "ArmourDefense": 59,
+    "ArmourDefenseInfo": "59",
+    "ArmourName": "Kevlar Armour",
+    "armourDefense": 59,
+    "armourDefenseInfo": "59",
+    "armourName": "Kevlar Armour"
+  },
+  {
+    "ArmourDefense": 27,
+    "ArmourDefenseInfo": "27",
+    "ArmourName": "Leather Armour",
+    "armourDefense": 27,
+    "armourDefenseInfo": "27",
+    "armourName": "Leather Armour"
+  },
+  {
+    "ArmourDefense": 61,
+    "ArmourDefenseInfo": "61",
+    "ArmourName": "Water Armour",
+    "armourDefense": 61,
+    "armourDefenseInfo": "61",
+    "armourName": "Water Armour"
+  },
+  {
+    "ArmourDefense": 45,
+    "ArmourDefenseInfo": "45",
+    "ArmourName": "Fire Armour",
+    "armourDefense": 45,
+    "armourDefenseInfo": "45",
+    "armourName": "Fire Armour"
+  },
+  {
+    "ArmourDefense": 41,
+    "ArmourDefenseInfo": "41",
+    "ArmourName": "Dirt Armour",
+    "armourDefense": 41,
+    "armourDefenseInfo": "41",
+    "armourName": "Dirt Armour"
+  }
+]

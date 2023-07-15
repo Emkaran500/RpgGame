@@ -135,8 +135,8 @@ public class Player : Character, INotifyPropertyChanged
 
     private Player()
     {
-        this.Weapons.Add(new Weapon("Sword", 10));
-        this.Armours.Add(new Armour("Steel Armour", 10));
+        this.Weapons.Add(new Weapon("Stick", 10));
+        this.Armours.Add(new Armour("Rubber Armour", 10));
         this.LifeStatus = LifeStatus.alive;
         this.CharacterName = BaseInfo.playerName;
 
@@ -151,11 +151,11 @@ public class Player : Character, INotifyPropertyChanged
 
         if (this.currentArmour == null)
         {
-            this.CharacterHealth = baseHealth;
+            this.CharacterHealth = baseHealth + (this.Level.Level - 1) * 10;
         }
         else
         {
-            this.CharacterHealth = baseHealth + this.currentArmour.ArmourDefense;
+            this.CharacterHealth = baseHealth + this.currentArmour.ArmourDefense + (this.Level.Level - 1) * 10;
         }
         
         this.CharacterModel = new Image();

@@ -74,7 +74,7 @@ public class LevelSystem: INotifyPropertyChanged
         {
             if (this.xp + value >= 100)
             {
-                this.xp = this.xp + value - 100;
+                this.xp = (this.xp % 100) + value;
                 this.Level++;
             }
             else

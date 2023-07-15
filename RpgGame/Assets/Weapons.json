@@ -2,81 +2,81 @@
   {
     "WeaponDamage": 35,
     "WeaponDamageInfo": "35",
-    "WeaponName": "Greg",
+    "WeaponName": "Sword",
     "weaponDamage": 35,
     "weaponDamageInfo": "35",
-    "weaponName": "Greg"
+    "weaponName": "Sword"
   },
   {
     "WeaponDamage": 17,
     "WeaponDamageInfo": "17",
-    "WeaponName": "Alexio",
+    "WeaponName": "Knife",
     "weaponDamage": 17,
     "weaponDamageInfo": "17",
-    "weaponName": "Alexio"
+    "weaponName": "Knife"
   },
   {
     "WeaponDamage": 45,
     "WeaponDamageInfo": "45",
-    "WeaponName": "Chevy",
+    "WeaponName": "Mace",
     "weaponDamage": 45,
     "weaponDamageInfo": "45",
-    "weaponName": "Chevy"
+    "weaponName": "Mace"
   },
   {
     "WeaponDamage": 31,
     "WeaponDamageInfo": "31",
-    "WeaponName": "Fairlie",
+    "WeaponName": "Scimitar",
     "weaponDamage": 31,
     "weaponDamageInfo": "31",
-    "weaponName": "Fairlie"
+    "weaponName": "Scimitar"
   },
   {
     "WeaponDamage": 97,
     "WeaponDamageInfo": "97",
-    "WeaponName": "Kameko",
+    "WeaponName": "Halberd",
     "weaponDamage": 97,
     "weaponDamageInfo": "97",
-    "weaponName": "Kameko"
+    "weaponName": "Halberd"
   },
   {
     "WeaponDamage": 54,
     "WeaponDamageInfo": "54",
-    "WeaponName": "Laure",
+    "WeaponName": "Spear",
     "weaponDamage": 54,
     "weaponDamageInfo": "54",
-    "weaponName": "Laure"
+    "weaponName": "Spear"
   },
   {
     "WeaponDamage": 37,
     "WeaponDamageInfo": "37",
-    "WeaponName": "Justine",
+    "WeaponName": "Warhammer",
     "weaponDamage": 37,
     "weaponDamageInfo": "37",
-    "weaponName": "Justine"
+    "weaponName": "Warhammer"
   },
   {
     "WeaponDamage": 87,
     "WeaponDamageInfo": "87",
-    "WeaponName": "Nanci",
+    "WeaponName": "Excalibur",
     "weaponDamage": 87,
     "weaponDamageInfo": "87",
-    "weaponName": "Nanci"
+    "weaponName": "Excalibur"
   },
   {
     "WeaponDamage": 8,
     "WeaponDamageInfo": "8",
-    "WeaponName": "Erda",
+    "WeaponName": "Scissors",
     "weaponDamage": 8,
     "weaponDamageInfo": "8",
-    "weaponName": "Erda"
+    "weaponName": "Scissors"
   },
   {
     "WeaponDamage": 15,
     "WeaponDamageInfo": "15",
-    "WeaponName": "Bevin",
+    "WeaponName": "Gladius",
     "weaponDamage": 15,
     "weaponDamageInfo": "15",
-    "weaponName": "Bevin"
+    "weaponName": "Gladius"
   }
 ]

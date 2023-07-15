@@ -54,7 +54,7 @@ namespace RpgGame.View
 
         private void Window_Closing(object sender, CancelEventArgs e)
         {
-            if (player.CharacterHealth != 0 && enemy.CharacterHealth != 0)
+            if (player.CharacterHealth > 0 && enemy.CharacterHealth > 0)
             {
                 MessageBox.Show("You can't leave until one of you is dead!");
                 e.Cancel = true;
@@ -94,10 +94,22 @@ namespace RpgGame.View
                 this.player.Level.XP += gainedXP;
                 this.player.CharacterHealth += this.lostHealth / 2;
                 this.player.CurrentPlayerHealthInfo = this.player.CharacterHealth.ToString();
+                
                 string weaponsPath = "Assets\\Weapons.json";
                 string weaponsJson = File.ReadAllText(weaponsPath);
                 Weapon[] weapons = JsonSerializer.Deserialize<Weapon[]>(weaponsJson);
-                MessageBox.Show($"Enemy died!\nYou gained {gainedXP} XP!\nAlso you restored half of your health.");
+                int droppedWeaponIndex = rand.Next(0, 10);
+                Weapon newWeapon = weapons[droppedWeaponIndex];
+                this.player.Weapons.Add(newWeapon);
+
+                string armoursPath = "Assets\\Armours.json";
+                string armoursJson = File.ReadAllText(armoursPath);
+                Armour[] armours = JsonSerializer.Deserialize<Armour[]>(armoursJson);
+                int droppedArmourIndex = rand.Next(0, 10);
+                Armour newArmour = armours[droppedArmourIndex];
+                this.player.Armours.Add(newArmour);
+
+                MessageBox.Show($"Enemy died!\nYou gained {gainedXP} XP!\nYou have found {newArmour.ArmourName} armour!\nYou have found {newWeapon.WeaponName} weapon\nYou can access your new gear in Inventory Menu.\nAlso you restored half of your health.");
                 Close();
             }
             else

@@ -38,13 +38,13 @@ public class Armour: INotifyPropertyChanged
         }
     }
 
-    private string? armourDamageInfo;
+    private string? armourDefenseInfo;
     public string? ArmourDefenseInfo
     {
-        get => armourDamageInfo;
+        get => armourDefenseInfo;
         set
         {
-            this.armourDamageInfo = "Defense: " + value;
+            this.armourDefenseInfo = "Defense: " + value;
         }
     }
 

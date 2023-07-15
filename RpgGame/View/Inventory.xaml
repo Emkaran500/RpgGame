@@ -21,7 +21,7 @@
                 <RowDefinition Height="3*"/>
             </Grid.RowDefinitions>
             <Label Grid.Row="0" Content="Weapon:" VerticalContentAlignment="Bottom" FontSize="16"/>
-            <ListBox x:Name="WeaponsListBox" Grid.Row="1" ItemsSource="{Binding Weapons}" Margin="20" GotFocus="WeaponsListBox_GotFocus" IsSynchronizedWithCurrentItem="true">
+            <ListBox x:Name="WeaponsListBox" Grid.Row="1" ItemsSource="{Binding Weapons}" Margin="20" IsSynchronizedWithCurrentItem="true" SelectionChanged="EquipmentListBox_SelectionChanged" GotFocus="WeaponsListBox_GotFocus">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel>
@@ -33,7 +33,7 @@
             </ListBox>
 
             <Label Grid.Row="2" Content="Armour:" VerticalContentAlignment="Bottom" FontSize="16"/>
-            <ListBox x:Name="ArmoursListBox" Grid.Row="3" ItemsSource="{Binding Armours}" Margin="20" GotFocus="ArmoursListBox_GotFocus" IsSynchronizedWithCurrentItem="True">
+            <ListBox x:Name="ArmoursListBox" Grid.Row="3" ItemsSource="{Binding Armours}" Margin="20" IsSynchronizedWithCurrentItem="True" SelectionChanged="EquipmentListBox_SelectionChanged" GotFocus="ArmoursListBox_GotFocus">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel>
