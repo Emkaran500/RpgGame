@@ -19,7 +19,7 @@ using RpgGame.DataModels;
 using RpgGame.View;
 
 namespace RpgGame.DataModels;
-public abstract class Character
+public abstract class Character: INotifyPropertyChanged
 {
     private LifeStatus lifeStatus = LifeStatus.dead;
     public LifeStatus LifeStatus
@@ -27,8 +27,8 @@ public abstract class Character
         get => this.lifeStatus;
         set => this.lifeStatus = value;
     }
-    protected const int baseHealth = 100;
-    protected const int baseAttack = 10;
+    public const int baseHealth = 100;
+    public const int baseAttack = 10;
     public string CharacterName { get; set; }
 
     private int characterAttack = baseAttack;
@@ -38,9 +38,17 @@ public abstract class Character
         set => this.characterAttack = value;
     }
 
-    public string CharacterAttackInfo
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    private int characterHealth = baseHealth;
+
+    public int CharacterHealth
     {
-        get => "Damage: " + this.characterAttack.ToString();
+        get => this.characterHealth;
+        set
+        {
+            this.characterHealth = value;
+        }
     }
 
     public Image CharacterModel { get; set; }

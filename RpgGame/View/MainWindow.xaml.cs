@@ -28,6 +28,7 @@ namespace RpgGame
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
         private Battle battleWindow;
+        private Inventory inventoryWindow;
 
         public Map map;
         public Player player = Player.Instance;
@@ -58,7 +59,9 @@ namespace RpgGame
             this.map.ShowTileInfo(this.player);
             this.TileInfo.DataContext = this.map;
             this.HasEnemyInfo.DataContext = this.map;
-            this.PlayerInfo.DataContext = this.player;
+            this.PlayerHealthInfo.DataContext = this.player;
+            this.PlayerLevelInfo.DataContext = this.player.Level;
+            this.PlayerXPInfo.DataContext = this.player.Level;
             this.AttackButtonAccessability();
             this.KeyDown += MainWindow_KeyDown;
         }
@@ -111,6 +114,11 @@ namespace RpgGame
                 this.AttackButtonAccessability();
                 this.map.ShowTileInfo(this.player);
                 Window.GetWindow(this).Focus();
+                if (this.enemies.Count <= 0)
+                {
+                    MessageBox.Show("You have won! Congratulations!");
+                    System.Environment.Exit(0);
+                }
             }
         }
 
@@ -146,15 +154,6 @@ namespace RpgGame
             this.AttackButtonAccessability();
         }
 
-        private void ShopOpenClick(object sender, RoutedEventArgs e)
-        {
-            Window shopWindow = new Shop();
-            this.GameWindow.IsEnabled = false;
-            shopWindow.ShowInTaskbar = false;
-            shopWindow.Owner = Application.Current.MainWindow;
-            shopWindow.Show();
-        }
-
         private void AttackEnemyClick(object sender, RoutedEventArgs e)
         {
             (int, int) enemyPosition = Enemy.oldPositionPairs.First(numPair => numPair == (this.player.playerRow, this.player.playerColumn));
@@ -180,7 +179,7 @@ namespace RpgGame
 
         private void InventoryOpenClick(object sender, RoutedEventArgs e)
         {
-            Window inventoryWindow = new Inventory();
+            inventoryWindow = new Inventory();
             this.GameWindow.IsEnabled = false;
             inventoryWindow.ShowInTaskbar = false;
             inventoryWindow.Owner = Application.Current.MainWindow;

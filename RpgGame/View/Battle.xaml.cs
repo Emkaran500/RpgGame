@@ -18,6 +18,7 @@ using System.IO;
 using RpgGame.DataModels;
 using RpgGame.View;
 using System.Collections.ObjectModel;
+using System.Threading;
 
 namespace RpgGame.View
 {
@@ -26,9 +27,10 @@ namespace RpgGame.View
     /// </summary>
     public partial class Battle : Window, INotifyPropertyChanged
     {
-        int round = 1;
-        Player player;
-        Enemy enemy;
+        private int lostHealth = 0;
+        private int round = 1;
+        private Player player;
+        private Enemy enemy;
         public ObservableCollection<Log> BattleLog { get; set; }
 
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -52,14 +54,14 @@ namespace RpgGame.View
 
         private void Window_Closing(object sender, CancelEventArgs e)
         {
-            if (player.PlayerHealth != 0 && enemy.EnemyHealth != 0)
+            if (player.CharacterHealth != 0 && enemy.CharacterHealth != 0)
             {
                 MessageBox.Show("You can't leave until one of you is dead!");
                 e.Cancel = true;
             }
             else
             {
-                this.player.CurrentPlayerHealthInfo = this.player.PlayerHealth.ToString();
+                this.player.CurrentPlayerHealthInfo = this.player.CharacterHealth.ToString();
                 Application.Current.MainWindow.IsEnabled = true;
                 Application.Current.MainWindow.Activate();
             }
@@ -67,13 +69,16 @@ namespace RpgGame.View
 
         private void PlayerAttack()
         {
-            this.enemy.EnemyHealth -= this.player.CharacterAttack;
+            this.enemy.CharacterHealth -= this.player.CharacterAttack;
+            this.enemy.CurrentEnemyHealthInfo = this.enemy.CharacterHealth.ToString();
             BattleLog.Add(new Log(round, "attacked", player, enemy));
         }
 
         private void EnemyAttack()
         {
-            this.player.PlayerHealth -= this.enemy.CharacterAttack;
+            this.player.CharacterHealth -= this.enemy.CharacterAttack;
+            this.player.CurrentPlayerHealthInfo = this.player.CharacterHealth.ToString();
+            this.lostHealth += this.enemy.CharacterAttack;
             BattleLog.Add(new Log(round, "attacked", enemy, player));
         }
 
@@ -81,10 +86,18 @@ namespace RpgGame.View
         {
             this.PlayerAttack();
 
-            if (enemy.EnemyHealth <= 0)
+            if (enemy.CharacterHealth <= 0)
             {
                 enemy.LifeStatus = LifeStatus.dead;
-                MessageBox.Show("Enemy died!");
+                Random rand = new Random();
+                int gainedXP = rand.Next(60, 101);
+                this.player.Level.XP += gainedXP;
+                this.player.CharacterHealth += this.lostHealth / 2;
+                this.player.CurrentPlayerHealthInfo = this.player.CharacterHealth.ToString();
+                string weaponsPath = "Assets\\Weapons.json";
+                string weaponsJson = File.ReadAllText(weaponsPath);
+                Weapon[] weapons = JsonSerializer.Deserialize<Weapon[]>(weaponsJson);
+                MessageBox.Show($"Enemy died!\nYou gained {gainedXP} XP!\nAlso you restored half of your health.");
                 Close();
             }
             else
@@ -94,7 +107,7 @@ namespace RpgGame.View
             }
             
 
-            if (player.PlayerHealth <= 0)
+            if (player.CharacterHealth <= 0)
             {
                 player.LifeStatus = LifeStatus.dead;
                 MessageBox.Show("You died!");

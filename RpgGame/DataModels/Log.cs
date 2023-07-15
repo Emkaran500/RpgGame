@@ -55,7 +55,7 @@ public class Log
         this.combatant1 = combatant1;
         this.combatant2 = combatant2;
         this.Action = Action;
-        this.Damage = this.combatant1.CharacterAttackInfo;
+        this.Damage = this.combatant1.CharacterAttack.ToString();
 
         if (this.combatant1 is Player)
         {

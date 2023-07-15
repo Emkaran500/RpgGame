@@ -21,35 +21,47 @@ using RpgGame.View;
 namespace RpgGame.DataModels;
 public class Enemy : Character, INotifyPropertyChanged
 {
-    private int enemyHealth = baseHealth;
-    public int EnemyHealth
-    {
-        get => enemyHealth;
-        set
-        {
-            this.enemyHealth = value;
-            this.EnemyHealthInfo = value.ToString();
-        }
-    }
+    private string? currentEnemyHealthInfo;
 
-    private string? enemyHealthInfo = null;
-    public string? EnemyHealthInfo
+    public string? CurrentEnemyHealthInfo
     {
-        get => enemyHealthInfo;
+        get => currentEnemyHealthInfo;
         set
         {
-            if (this.enemyHealthInfo == null)
+            if (currentEnemyHealthInfo == null)
             {
-                this.enemyHealthInfo = "Health: " + this.EnemyHealth.ToString() + "\n";
+                currentEnemyHealthInfo = "\n" + "Health: " + this.CharacterHealth.ToString() + "\n";
             }
             else
             {
-                this.enemyHealthInfo = "Health: " + value + "\n";
+                currentEnemyHealthInfo = "\n" + "Health: " + value + "\n";
             }
 
             if (this.PropertyChanged != null)
             {
-                this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs(nameof(EnemyHealthInfo)));
+                this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentEnemyHealthInfo)));
+            }
+        }
+    }
+
+    private string? enemyAttackInfo;
+    public string? EnemyAttackInfo
+    {
+        get => this.enemyAttackInfo;
+        set
+        {
+            if (this.enemyAttackInfo == null)
+            {
+                this.enemyAttackInfo = "\n" + "Health: " + this.CharacterAttack.ToString() + "\n";
+            }
+            else
+            {
+                this.enemyAttackInfo = "\n" + "Health: " + value + "\n";
+            }
+
+            if (this.PropertyChanged != null)
+            {
+                this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs(nameof(EnemyAttackInfo)));
             }
         }
     }
@@ -72,6 +84,7 @@ public class Enemy : Character, INotifyPropertyChanged
         this.CharacterModel.Source = enemySource;
         this.enemyRow = enemyRow;
         this.enemyColumn = enemyColumn;
-        this.EnemyHealth = baseHealth;
+        this.CharacterHealth = baseHealth;
+        this.CurrentEnemyHealthInfo = this.CharacterHealth.ToString();
     }
 }

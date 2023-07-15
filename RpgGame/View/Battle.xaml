@@ -52,7 +52,7 @@
                             <Run x:Name="EnemyNameInfoTextBox" Text="{Binding CharacterName}" FontSize="16"/>
                         </Paragraph>
                         <Paragraph>
-                            <Run x:Name="EnemyHealthInfoTextBox" Text="{Binding EnemyHealthInfo}" FontSize="16"/>
+                            <Run x:Name="EnemyHealthInfoTextBox" Text="{Binding CurrentEnemyHealthInfo}" FontSize="16"/>
                         </Paragraph>
                     </FlowDocument>
                 </RichTextBox>

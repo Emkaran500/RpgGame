@@ -5,8 +5,68 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RpgGame.View"
         mc:Ignorable="d"
-        Title="Inventory" Height="450" Width="800">
+        Title="Inventory" Height="450" Width="400" Closing="Window_Closing" ResizeMode="NoResize" Background="Gray">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="3*"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Content="Weapon:" VerticalContentAlignment="Bottom" FontSize="16"/>
+            <ListBox x:Name="WeaponsListBox" Grid.Row="1" ItemsSource="{Binding Weapons}" Margin="20" GotFocus="WeaponsListBox_GotFocus" IsSynchronizedWithCurrentItem="true">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <ListBoxItem FontSize="10" FontWeight="Bold" Content="{Binding WeaponName}"/>
+                            <ListBoxItem FontSize="10" FontWeight="Bold" Content="{Binding WeaponDamageInfo}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <Label Grid.Row="2" Content="Armour:" VerticalContentAlignment="Bottom" FontSize="16"/>
+            <ListBox x:Name="ArmoursListBox" Grid.Row="3" ItemsSource="{Binding Armours}" Margin="20" GotFocus="ArmoursListBox_GotFocus" IsSynchronizedWithCurrentItem="True">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <ListBoxItem FontSize="10" FontWeight="Bold" Content="{Binding ArmourName}"/>
+                            <ListBoxItem FontSize="10" FontWeight="Bold" Content="{Binding ArmourDefenseInfo}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+        <UniformGrid Grid.Column="1" Rows="2" Margin="0 100 0 100">
+            <Button x:Name="EquipButton" Content="Equip" Height="20" Width="50" FontSize="10" Click="EquipButton_Click"/>
+            <Button x:Name="UnequipButton" Content="Unequip" Height="20" Width="50" FontSize="10" Click="UnequipButton_Click"/>
+        </UniformGrid>
+        <Grid Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="3*"/>
+            </Grid.RowDefinitions>
+
+            <Label Grid.Row="0" Content="Player Info:" VerticalAlignment="Bottom" FontSize="16"/>
+            <RichTextBox Grid.Row="1" Margin="10 0 10 150" IsEnabled="False">
+                <FlowDocument>
+                    <Paragraph>
+                        <Run x:Name="PlayerNameBox" FontSize="14" FontWeight="Bold" Text="{Binding CharacterName}"/>
+                        <Run x:Name="PlayerHealthBox" FontSize="14" FontWeight="Bold" Text="{Binding CurrentPlayerHealthInfo}"/>
+                        <Run x:Name="PlayerDamageBox" FontSize="14" FontWeight="Bold" Text="{Binding CurrentPlayerAttackInfo}"/>
+                        <Run x:Name="PlayerArmourBox" FontSize="14" FontWeight="Bold" Text="{Binding ArmourName}"/>
+                        <Run x:Name="PlayerWeaponBox" FontSize="14" FontWeight="Bold" Text="{Binding WeaponName}"/>
+                    </Paragraph>
+                </FlowDocument>
+            </RichTextBox>
+        </Grid>
         
     </Grid>
 </Window>
