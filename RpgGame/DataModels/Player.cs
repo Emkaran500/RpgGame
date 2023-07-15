@@ -18,50 +18,55 @@ using RpgGame.DataModels;
 namespace RpgGame.DataModels;
 public class Player : Character, INotifyPropertyChanged
 {
+    private static Player player;
+
     private int playerHealth = baseHealth;
     public int PlayerHealth 
     {
         get => this.playerHealth;
-        set => this.playerHealth = value; 
-    }
-
-    private int playerAttack = baseAttack;
-    public int PlayerAttack
-    {
-        get => this.playerAttack;
-        set => this.playerAttack = value;
+        set
+        {
+            this.playerHealth = value;
+            this.CurrentPlayerHealthInfo = value.ToString();
+        }
     }
 
     public static Player Instance
     {
-        get => new Player();
+        get
+        {
+            if (player == null)
+            {
+                player = new Player();
+            }
+            return player;
+        }
+
     }
 
-    public string PlayerName { get; set; } = BaseInfo.playerName;
-    public Image PlayerModel { get; set; }
     public static string PlayerURL { get; set; } = BaseInfo.playerSource;
-
-    private string? currentPlayerInfo;
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
-    public string? CurrentPlayerInfo
+    private string? currentPlayerHealthInfo;
+
+    public string? CurrentPlayerHealthInfo
     {
-        get => currentPlayerInfo;
+        get => currentPlayerHealthInfo;
         set
         {
-            if (currentPlayerInfo == null)
+            if (currentPlayerHealthInfo == null)
             {
-                currentPlayerInfo = "Health: " + this.playerHealth.ToString() + "\n";
+                currentPlayerHealthInfo = "Health: " + this.playerHealth.ToString() + "\n";
             }
             else
             {
-                currentPlayerInfo = "Health: " + value + "\n";
+                currentPlayerHealthInfo = "Health: " + value + "\n";
             }
 
             if (this.PropertyChanged != null)
             {
-                this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentPlayerInfo)));
+                this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs(nameof(CurrentPlayerHealthInfo)));
             }
         }
     }
@@ -71,10 +76,25 @@ public class Player : Character, INotifyPropertyChanged
 
     private Player()
     {
-        this.PlayerModel = new Image();
+        this.LifeStatus = LifeStatus.alive;
+        this.CharacterName = BaseInfo.playerName;
+        this.CharacterAttack = baseAttack;
+        this.CharacterModel = new Image();
         BitmapImage playerSource = new BitmapImage(new Uri(PlayerURL, UriKind.Relative));
-        this.PlayerModel.Source = playerSource;
-        this.CurrentPlayerInfo = $"Health: {this.playerHealth}";
+        this.CharacterModel.Source = playerSource;
+        this.PlayerHealth = baseHealth;
+    }
+
+    public bool CheckPlayerAlive()
+    {
+        if (this.LifeStatus == LifeStatus.dead)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
 
     public void ChangePlayerPosition(Map map, Key key)
@@ -83,40 +103,40 @@ public class Player : Character, INotifyPropertyChanged
         {
             case Key.W:
                 {
-                    if (Grid.GetRow(this.PlayerModel) > 0)
+                    if (Grid.GetRow(this.CharacterModel) > 0)
                     {
-                        Grid.SetRow(this.PlayerModel, Grid.GetRow(this.PlayerModel) - 1);
-                        this.playerRow = Grid.GetRow(this.PlayerModel);
+                        Grid.SetRow(this.CharacterModel, Grid.GetRow(this.CharacterModel) - 1);
+                        this.playerRow = Grid.GetRow(this.CharacterModel);
                         map.ShowTileInfo(this);
                     }
                     break;
                 }
             case Key.S:
                 {
-                    if (Grid.GetRow(this.PlayerModel) < map.MapGrid.RowDefinitions.Count - 1)
+                    if (Grid.GetRow(this.CharacterModel) < map.MapGrid.RowDefinitions.Count - 1)
                     {
-                        Grid.SetRow(this.PlayerModel, Grid.GetRow(this.PlayerModel) + 1);
-                        this.playerRow = Grid.GetRow(this.PlayerModel);
+                        Grid.SetRow(this.CharacterModel, Grid.GetRow(this.CharacterModel) + 1);
+                        this.playerRow = Grid.GetRow(this.CharacterModel);
                         map.ShowTileInfo(this);
                     }
                     break;
                 }
             case Key.A:
                 {
-                    if (Grid.GetColumn(this.PlayerModel) > 0)
+                    if (Grid.GetColumn(this.CharacterModel) > 0)
                     {
-                        Grid.SetColumn(this.PlayerModel, Grid.GetColumn(this.PlayerModel) - 1);
-                        this.playerColumn = Grid.GetColumn(this.PlayerModel);
+                        Grid.SetColumn(this.CharacterModel, Grid.GetColumn(this.CharacterModel) - 1);
+                        this.playerColumn = Grid.GetColumn(this.CharacterModel);
                         map.ShowTileInfo(this);
                     }
                     break;
                 }
             case Key.D:
                 {
-                    if (Grid.GetColumn(this.PlayerModel) < map.MapGrid.ColumnDefinitions.Count - 1)
+                    if (Grid.GetColumn(this.CharacterModel) < map.MapGrid.ColumnDefinitions.Count - 1)
                     {
-                        Grid.SetColumn(this.PlayerModel, Grid.GetColumn(this.PlayerModel) + 1);
-                        this.playerColumn = Grid.GetColumn(this.PlayerModel);
+                        Grid.SetColumn(this.CharacterModel, Grid.GetColumn(this.CharacterModel) + 1);
+                        this.playerColumn = Grid.GetColumn(this.CharacterModel);
                         map.ShowTileInfo(this);
                     }
                     break;

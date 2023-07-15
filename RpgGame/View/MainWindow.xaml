@@ -41,13 +41,14 @@
                         <GradientStop Color="DimGray" Offset="1.0" />
                     </LinearGradientBrush>
                 </Border.Background>
+
                         <RichTextBox DockPanel.Dock="Top" IsEnabled="False" FontSize="20" Background="LightSteelBlue" Margin="10 50 10 40">
                             <FlowDocument>
                                 <Paragraph>
-                                    <Run x:Name="PlayerInfo" Text="{Binding CurrentPlayerInfo}" FontSize="15"/>
+                                    <Run x:Name="PlayerInfo" Text="{Binding CurrentPlayerHealthInfo}" FontSize="15"/>
                                     <Run x:Name="TileInfo" Text="{Binding CurrentTileName}" FontSize="15"/>
-                            <Run x:Name="HasEnemyInfo" Text="{Binding CurrentTileHasEnemy}" FontSize="15"/>
-                        </Paragraph>
+                                    <Run x:Name="HasEnemyInfo" Text="{Binding CurrentTileHasEnemy}" FontSize="15"/>
+                                </Paragraph>
                             </FlowDocument>
                         </RichTextBox>
             </Border>

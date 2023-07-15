@@ -19,36 +19,59 @@ using RpgGame.DataModels;
 using RpgGame.View;
 
 namespace RpgGame.DataModels;
-public class Enemy : Character
+public class Enemy : Character, INotifyPropertyChanged
 {
     private int enemyHealth = baseHealth;
     public int EnemyHealth
     {
         get => enemyHealth;
-        set => enemyHealth = value;
+        set
+        {
+            this.enemyHealth = value;
+            this.EnemyHealthInfo = value.ToString();
+        }
     }
 
-    private int enemyAttack = baseAttack;
-    public int EnemyAttack
+    private string? enemyHealthInfo = null;
+    public string? EnemyHealthInfo
     {
-        get => enemyAttack;
-        set => enemyAttack = value;
+        get => enemyHealthInfo;
+        set
+        {
+            if (this.enemyHealthInfo == null)
+            {
+                this.enemyHealthInfo = "Health: " + this.EnemyHealth.ToString() + "\n";
+            }
+            else
+            {
+                this.enemyHealthInfo = "Health: " + value + "\n";
+            }
+
+            if (this.PropertyChanged != null)
+            {
+                this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs(nameof(EnemyHealthInfo)));
+            }
+        }
     }
 
     public int enemyRow;
     public int enemyColumn;
 
-    public string EnemyName { get; set; } = BaseInfo.enemyName;
-    public Image EnemyModel { get; set; }
     public static string EnemyURL { get; set; } = BaseInfo.enemySource;
     public static (int, int)[] oldPositionPairs = new (int, int)[0];
 
+    public event PropertyChangedEventHandler? PropertyChanged;
+
     public Enemy(int enemyRow, int enemyColumn)
     {
-        this.EnemyModel = new Image();
+        this.LifeStatus = LifeStatus.alive;
+        this.CharacterName = BaseInfo.enemyName;
+        this.CharacterAttack = baseAttack;
+        this.CharacterModel = new Image();
         BitmapImage enemySource = new BitmapImage(new Uri(EnemyURL, UriKind.Relative));
-        this.EnemyModel.Source = enemySource;
+        this.CharacterModel.Source = enemySource;
         this.enemyRow = enemyRow;
         this.enemyColumn = enemyColumn;
+        this.EnemyHealth = baseHealth;
     }
 }

@@ -17,6 +17,8 @@ using System.Windows.Shapes;
 using System.IO;
 using RpgGame.DataModels;
 using RpgGame.View;
+using System.Collections.ObjectModel;
+using System.Threading;
 
 namespace RpgGame
 {
@@ -25,9 +27,11 @@ namespace RpgGame
     /// </summary>
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
+        private Battle battleWindow;
+
         public Map map;
         public Player player = Player.Instance;
-        public Enemy[] enemies = new Enemy[0];
+        public ObservableCollection<Enemy> enemies = new ObservableCollection<Enemy>();
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -56,7 +60,6 @@ namespace RpgGame
             this.HasEnemyInfo.DataContext = this.map;
             this.PlayerInfo.DataContext = this.player;
             this.AttackButtonAccessability();
-
             this.KeyDown += MainWindow_KeyDown;
         }
 
@@ -80,27 +83,50 @@ namespace RpgGame
                 Enemy.oldPositionPairs = Enemy.oldPositionPairs.Append((newRowPosition, newColumnPosition)).ToArray<(int, int)>();
                 
                 Enemy newEnemy = new Enemy(newRowPosition, newColumnPosition);
-                map.MapGrid.Children.Add(newEnemy.EnemyModel);
-                enemies = enemies.Append(newEnemy).ToArray();
-                RegisterName(newEnemy.EnemyName + $"{i + 1}", newEnemy.EnemyModel);
-                Grid.SetRow(newEnemy.EnemyModel, newRowPosition);
-                Grid.SetColumn(newEnemy.EnemyModel, newColumnPosition);
+                map.MapGrid.Children.Add(newEnemy.CharacterModel);
+                enemies.Add(newEnemy);
+                RegisterName(newEnemy.CharacterName + $"{i + 1}", newEnemy.CharacterModel);
+                Grid.SetRow(newEnemy.CharacterModel, newRowPosition);
+                Grid.SetColumn(newEnemy.CharacterModel, newColumnPosition);
+            }
+        }
+
+        private void DeletePlayer()
+        {
+            this.map.MapGrid.Children.Remove(this.player.CharacterModel);
+            this.map.ShowTileInfo(this.player);
+            MessageBox.Show("Please restart the game to start anew.");
+            System.Environment.Exit(0);
+        }
+
+        private void DeleteEnemy()
+        {
+            Enemy? enemyForRemove = enemies.FirstOrDefault(enemy => enemy.LifeStatus == LifeStatus.dead, null);
+            if (enemyForRemove != null)
+            {
+                map.MapGrid.Children.Remove(enemyForRemove.CharacterModel);
+                (int, int) enemyForRemovePosition = (enemyForRemove.enemyRow, enemyForRemove.enemyColumn);
+                Enemy.oldPositionPairs = Enemy.oldPositionPairs.Where(enemyPosition => enemyPosition != enemyForRemovePosition).ToArray();
+                this.enemies = new ObservableCollection<Enemy>(enemies.Where(enemy => enemy.LifeStatus != LifeStatus.dead));
+                this.AttackButtonAccessability();
+                this.map.ShowTileInfo(this.player);
+                Window.GetWindow(this).Focus();
             }
         }
 
         private void AddPlayerToMap()
         {
-            map.MapGrid.Children.Add(this.player.PlayerModel);
-            RegisterName(this.player.PlayerName, this.player.PlayerModel);
+            map.MapGrid.Children.Add(this.player.CharacterModel);
+            RegisterName(this.player.CharacterName, this.player.CharacterModel);
             this.player.playerRow = 0;
             this.player.playerColumn = 0;
-            Grid.SetRow(this.player.PlayerModel, this.player.playerRow);
-            Grid.SetColumn(this.player.PlayerModel, this.player.playerColumn);
+            Grid.SetRow(this.player.CharacterModel, this.player.playerRow);
+            Grid.SetColumn(this.player.CharacterModel, this.player.playerColumn);
         }
 
         private void AttackButtonAccessability()
         {
-            int currentPosition = (Grid.GetRow(this.player.PlayerModel) * map.MapGrid.ColumnDefinitions.Count) + Grid.GetColumn(this.player.PlayerModel);
+            int currentPosition = (Grid.GetRow(this.player.CharacterModel) * map.MapGrid.ColumnDefinitions.Count) + Grid.GetColumn(this.player.CharacterModel);
             if (Enemy.oldPositionPairs.Any(numPair => numPair == (map.mapTiles[currentPosition].TileRow, map.mapTiles[currentPosition].TileColumn)))
             {
                 this.AttackButton.IsEnabled = true;
@@ -117,7 +143,6 @@ namespace RpgGame
             {
                 this.player.ChangePlayerPosition(this.map, e.Key);
             }
-            this.player.CurrentPlayerInfo = this.player.PlayerHealth.ToString();
             this.AttackButtonAccessability();
         }
 
@@ -134,11 +159,23 @@ namespace RpgGame
         {
             (int, int) enemyPosition = Enemy.oldPositionPairs.First(numPair => numPair == (this.player.playerRow, this.player.playerColumn));
             Enemy enemy = enemies.First(enemy => enemy.enemyRow == enemyPosition.Item1 && enemy.enemyColumn == enemyPosition.Item2);
-            Window battleWindow = new Battle(this.player, enemy);
+            this.battleWindow = new Battle(this.player, enemy);
             this.GameWindow.IsEnabled = false;
-            battleWindow.ShowInTaskbar = false;
-            battleWindow.Owner = Application.Current.MainWindow;
-            battleWindow.Show();
+            this.battleWindow.ShowInTaskbar = false;
+            this.battleWindow.Owner = Application.Current.MainWindow;
+            bool? isClosed = this.battleWindow.ShowDialog();
+
+            if (isClosed != null)
+            {
+                if (player.CheckPlayerAlive() == false)
+                {
+                    this.DeletePlayer();
+                }
+                else
+                {
+                    this.DeleteEnemy();
+                }
+            }
         }
 
         private void InventoryOpenClick(object sender, RoutedEventArgs e)

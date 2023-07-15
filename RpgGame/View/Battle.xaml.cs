@@ -17,6 +17,7 @@ using System.Windows.Shapes;
 using System.IO;
 using RpgGame.DataModels;
 using RpgGame.View;
+using System.Collections.ObjectModel;
 
 namespace RpgGame.View
 {
@@ -25,31 +26,10 @@ namespace RpgGame.View
     /// </summary>
     public partial class Battle : Window, INotifyPropertyChanged
     {
+        int round = 1;
         Player player;
         Enemy enemy;
-
-        private string? enemyHealth = null;
-        public string? EnemyHealthInfo
-        {
-            get => enemyHealth;
-            set
-            {
-                if (enemyHealth == null)
-                {
-                    enemyHealth = "Health: " + this.enemy.EnemyHealth.ToString() + "\n";
-                }
-                else
-                {
-                    enemyHealth = "Health: " + value + "\n";
-                }
-
-                if (this.PropertyChanged != null)
-                {
-                    this.PropertyChanged.Invoke(this, new PropertyChangedEventArgs(nameof(EnemyHealthInfo)));
-                }
-            }
-        }
-
+        public ObservableCollection<Log> BattleLog { get; set; }
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -59,12 +39,15 @@ namespace RpgGame.View
             this.WindowState = WindowState.Maximized;
             this.player = player;
             this.enemy = enemy;
-            this.EnemyHealthInfo = this.enemy.EnemyHealth.ToString();
-            this.EnemyInfoTextBox.DataContext = this;
-            this.PlayerInfoTextBox.DataContext = this.player;
+            this.BattleLog = new ObservableCollection<Log>();
+            this.EnemyHealthInfoTextBox.DataContext = this.enemy;
+            this.EnemyNameInfoTextBox.DataContext = this.enemy;
+            this.PlayerHealthInfoTextBox.DataContext = this.player;
+            this.PlayerNameInfoTextBox.DataContext = this.player;
+            this.BattleLogBox.DataContext = this;
 
-            this.PlayerAvatar.Source = this.player.PlayerModel.Source;
-            this.EnemyAvatar.Source = this.enemy.EnemyModel.Source;
+            this.PlayerAvatar.Source = this.player.CharacterModel.Source;
+            this.EnemyAvatar.Source = this.enemy.CharacterModel.Source;
         }
 
         private void Window_Closing(object sender, CancelEventArgs e)
@@ -76,7 +59,7 @@ namespace RpgGame.View
             }
             else
             {
-                this.player.CurrentPlayerInfo = this.player.PlayerHealth.ToString();
+                this.player.CurrentPlayerHealthInfo = this.player.PlayerHealth.ToString();
                 Application.Current.MainWindow.IsEnabled = true;
                 Application.Current.MainWindow.Activate();
             }
@@ -84,14 +67,14 @@ namespace RpgGame.View
 
         private void PlayerAttack()
         {
-            this.enemy.EnemyHealth -= this.player.PlayerAttack;
-            this.EnemyHealthInfo = this.enemy.EnemyHealth.ToString();
+            this.enemy.EnemyHealth -= this.player.CharacterAttack;
+            BattleLog.Add(new Log(round, "attacked", player, enemy));
         }
 
         private void EnemyAttack()
         {
-            this.player.PlayerHealth -= this.enemy.EnemyAttack;
-            this.player.CurrentPlayerInfo = this.player.PlayerHealth.ToString();
+            this.player.PlayerHealth -= this.enemy.CharacterAttack;
+            BattleLog.Add(new Log(round, "attacked", enemy, player));
         }
 
         private void AttackButton_Click(object sender, RoutedEventArgs e)
@@ -100,17 +83,20 @@ namespace RpgGame.View
 
             if (enemy.EnemyHealth <= 0)
             {
+                enemy.LifeStatus = LifeStatus.dead;
                 MessageBox.Show("Enemy died!");
                 Close();
             }
             else
             {
                 this.EnemyAttack();
+                round++;
             }
             
 
             if (player.PlayerHealth <= 0)
             {
+                player.LifeStatus = LifeStatus.dead;
                 MessageBox.Show("You died!");
                 Close();
             }

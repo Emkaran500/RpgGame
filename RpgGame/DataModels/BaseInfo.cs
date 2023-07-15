@@ -19,5 +19,7 @@ public abstract class BaseInfo
     public const string enemyName = "Bandit";
     public const string enemySource = "enemy_texture.png";
     public const int numOfEnemies = 5;
+    public const string attackImageSource = "attack_sprite.png";
+    public const string defenseImageSource = "defense_sprite.png";
 }
 

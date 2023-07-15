@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\attack_sprite.png" />
+    <None Remove="Assets\attack_texture.png" />
+    <None Remove="Assets\defense_sprite.png" />
+    <None Remove="Assets\defense_texture.png" />
     <None Remove="Assets\enemy_texture.png" />
     <None Remove="Assets\grass_tile_1.png" />
     <None Remove="Assets\grass_tile_2.png" />
@@ -16,6 +20,10 @@
     <None Remove="Assets\player_texture.png" />
     <None Remove="Assets\water_tile_1.png" />
     <None Remove="Assets\water_tile_2.png" />
+    <None Remove="View\attack_sprite.png" />
+    <None Remove="View\attack_texture.png" />
+    <None Remove="View\defense_sprite.png" />
+    <None Remove="View\defense_texture.png" />
     <None Remove="View\enemy_texture.png" />
     <None Remove="View\grass_tile_1.png" />
     <None Remove="View\grass_tile_2.png" />
@@ -24,6 +32,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Assets\attack_sprite.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Assets\defense_sprite.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Assets\enemy_texture.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -33,6 +47,8 @@
     <EmbeddedResource Include="Assets\player_texture.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <Resource Include="View\attack_sprite.png" />
+    <Resource Include="View\defense_sprite.png" />
     <Resource Include="View\enemy_texture.png" />
     <Resource Include="View\grass_tile_1.png" />
     <Resource Include="View\grass_tile_2.png" />

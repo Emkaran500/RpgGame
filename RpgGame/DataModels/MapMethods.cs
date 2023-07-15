@@ -34,9 +34,9 @@ public static class MapMethods
 
     public static void ShowTileInfo (this Map map, Player player)
     {
-        if (map.MapGrid.FindName(player.PlayerName) != null)
+        if (map.MapGrid.FindName(player.CharacterName) != null)
         {
-            Image currentPlayer = map.MapGrid.FindName(player.PlayerName) as Image;
+            Image currentPlayer = map.MapGrid.FindName(player.CharacterName) as Image;
             int currentPosition = (Grid.GetRow(currentPlayer) * map.MapGrid.ColumnDefinitions.Count) + Grid.GetColumn(currentPlayer);
             map.CurrentTileName = map.mapTiles[currentPosition].TileName;
             if (Enemy.oldPositionPairs.Any(numPair => numPair == (map.mapTiles[currentPosition].TileRow, map.mapTiles[currentPosition].TileColumn)))
